@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint 'src/**/*.{ts,tsx,json}' --ext ts,tsx,json --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint 'src/.' --ext ts,tsx,json --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "format:fix": "prettier --write 'src/**/*.{ts,tsx,json}'",
+    "format:fix": "prettier --write 'src/.'",
     "prepare": "cd .. && husky install rss-react-app/.husky"
   },
   "husky": {
