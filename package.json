@@ -1,5 +1,5 @@
 {
-  "name": "rss-react-app",
+  "name": "rss-react-2023q4",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "lint": "eslint 'src/.' --ext ts,tsx,json --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "format:fix": "prettier --write 'src/.'",
-    "prepare": "cd .. && husky install rss-react-app/.husky"
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
