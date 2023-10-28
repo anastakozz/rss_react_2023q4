@@ -24,6 +24,7 @@ class Search extends Component<SearchProps> {
   }
 
   render(): ReactNode {
+    
     return (
       <div>
         <h1 className="text-6xl text-center text-white py-4">

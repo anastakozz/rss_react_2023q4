@@ -25,10 +25,6 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log('App has been updated');
-  }
-
   updateContext = (newContext: ContextProps) => {
     this.setState({ context: newContext }, () => {
       localStorage.setItem('previousSearch', newContext.search);
