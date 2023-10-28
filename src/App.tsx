@@ -3,6 +3,7 @@ import Search from './components/Search';
 import Results from './components/Results';
 import classNames from 'classnames';
 import { SearchContext, defaultContext } from './lib/context';
+import { ContextProps } from './lib/interfaces';
 
 class App extends Component {
   state = { context: defaultContext };
@@ -11,14 +12,28 @@ class App extends Component {
     const previousSearch = localStorage.getItem('previousSearch');
 
     if (previousSearch) {
-      this.setState({
-        context: {
-          ...defaultContext,
-          search: previousSearch,
+      this.setState(
+        {
+          context: {
+            search: previousSearch,
+          },
         },
-      });
+        () => {
+          console.log(this.state.context);
+        }
+      );
     }
   }
+
+  componentDidUpdate() {
+    console.log('App has been updated');
+  }
+
+  updateContext = (newContext: ContextProps) => {
+    this.setState({ context: newContext }, () => {
+      localStorage.setItem('previousSearch', newContext.search);
+    });
+  };
 
   render() {
     return (
@@ -30,7 +45,7 @@ class App extends Component {
               'min-w-[200px] min-h-screen'
             )}
           >
-            <Search></Search>
+            <Search updateContext={this.updateContext}></Search>
             <Results></Results>
           </div>
         </div>
