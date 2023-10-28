@@ -17,7 +17,7 @@
     }
   },
   "lint-staged": {
-    "src/.": [
+    "src/*": [
       "npm run lint"
     ]
   },
