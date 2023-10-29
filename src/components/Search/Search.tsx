@@ -17,14 +17,13 @@ class Search extends Component<SearchProps> {
 
   handleClick() {
     localStorage.setItem('previousSearch', this.state.newSearch);
-    const newSearchTrimmed = this.state.newSearch.trim()
+    const newSearchTrimmed = this.state.newSearch.trim();
     this.props.updateContext({
       search: newSearchTrimmed,
     });
   }
 
   render(): ReactNode {
-    
     return (
       <div>
         <h1 className="text-6xl text-center text-white py-4">

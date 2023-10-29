@@ -9,21 +9,14 @@ class App extends Component {
   state = { context: defaultContext };
 
   componentDidMount(): void {
-    console.log(this.state.context);
     const previousSearch = localStorage.getItem('previousSearch');
-    console.log(!!previousSearch);
 
     if (previousSearch) {
-      this.setState(
-        {
-          context: {
-            search: previousSearch,
-          },
+      this.setState({
+        context: {
+          search: previousSearch,
         },
-        () => {
-          console.log('state was updated with ' + this.state.context.search);
-        }
-      );
+      });
     }
   }
 
