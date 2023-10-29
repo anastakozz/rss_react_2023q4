@@ -9,18 +9,21 @@ type SearchProps = { updateContext: (newContext: ContextProps) => void };
 class Search extends Component<SearchProps> {
   static contextType = SearchContext;
   declare context: React.ContextType<typeof SearchContext>;
-  state = { newSearch: '', hasError: false };
+  state = { isInitial: true, newSearch: '', hasError: false };
 
   updateState(value: string) {
     this.setState({ newSearch: value });
   }
 
   handleClick() {
-    localStorage.setItem('previousSearch', this.state.newSearch);
-    const newSearchTrimmed = this.state.newSearch.trim();
-    this.props.updateContext({
-      search: newSearchTrimmed,
-    });
+    const searchItem = this.state.newSearch;
+    if (typeof searchItem === 'string') {
+      localStorage.setItem('previousSearch', searchItem);
+      const newSearchTrimmed = searchItem.trim();
+      this.props.updateContext({
+        search: newSearchTrimmed,
+      });
+    }
   }
 
   throwTestError() {
@@ -41,6 +44,9 @@ class Search extends Component<SearchProps> {
     if (this.state.hasError) {
       throw new Error('this is a test Error');
     }
+    if (this.state.newSearch === '' && this.state.isInitial) {
+      this.setState({ newSearch: this.context.search, isInitial: false });
+    }
   }
 
   render(): ReactNode {
@@ -54,7 +60,10 @@ class Search extends Component<SearchProps> {
             text="Error"
             onClick={this.throwTestError.bind(this)}
           ></Button>
-          <SearchInput updateState={this.updateState.bind(this)}></SearchInput>
+          <SearchInput
+            updateState={this.updateState.bind(this)}
+            inputValue={this.state.newSearch}
+          ></SearchInput>
           <Button text="Search" onClick={this.handleClick.bind(this)}></Button>
         </div>
         <hr className="w-full" />
