@@ -9,7 +9,9 @@ class App extends Component {
   state = { context: defaultContext };
 
   componentDidMount(): void {
+    console.log(this.state.context);
     const previousSearch = localStorage.getItem('previousSearch');
+    console.log(!!previousSearch);
 
     if (previousSearch) {
       this.setState(
@@ -19,7 +21,7 @@ class App extends Component {
           },
         },
         () => {
-          console.log(this.state.context);
+          console.log('state was updated with ' + this.state.context.search);
         }
       );
     }
