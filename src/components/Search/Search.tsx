@@ -23,14 +23,24 @@ class Search extends Component<SearchProps> {
     });
   }
 
+  throwTestError() {
+    this.setState({ hasError: true });
+  }
+
+  componentDidMount(): void {
+    const previousSearch = localStorage.getItem('previousSearch');
+
+    if (previousSearch) {
+      this.props.updateContext({
+        search: previousSearch,
+      });
+    }
+  }
+
   componentDidUpdate(): void {
     if (this.state.hasError) {
       throw new Error('this is a test Error');
     }
-  }
-
-  throwTestError() {
-    this.setState({ hasError: true });
   }
 
   render(): ReactNode {

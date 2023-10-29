@@ -9,18 +9,6 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 class App extends Component {
   state = { context: defaultContext };
 
-  componentDidMount(): void {
-    const previousSearch = localStorage.getItem('previousSearch');
-
-    if (previousSearch) {
-      this.setState({
-        context: {
-          search: previousSearch,
-        },
-      });
-    }
-  }
-
   updateContext = (newContext: ContextProps) => {
     this.setState({ context: newContext }, () => {
       localStorage.setItem('previousSearch', newContext.search);
@@ -34,12 +22,12 @@ class App extends Component {
           <div
             className={classNames(
               'max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10',
-              'min-w-[200px] min-h-screen text-white'
+              'min-w-[200px] min-h-screen'
             )}
           >
             <ErrorBoundary
               fallback={
-                <p className="text-center pt-10">
+                <p className="text-center pt-10 text-white">
                   Ooops! Something went wrong... Please, refresh the page!
                 </p>
               }
