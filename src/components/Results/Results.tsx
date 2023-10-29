@@ -29,11 +29,19 @@ class Results extends Component {
   async componentDidUpdate() {
     if (this.context.search !== this.state.prevSearch) {
       if (this.context.search === '') {
-        const res = await getAllData();
-        this.updateStateData(res);
+        try {
+          const res = await getAllData();
+          this.updateStateData(res);
+        } catch (e) {
+          console.error(e);
+        }
       } else {
-        const res = await searchData(this.context.search);
-        this.updateStateData(res);
+        try {
+          const res = await searchData(this.context.search);
+          this.updateStateData(res);
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }
