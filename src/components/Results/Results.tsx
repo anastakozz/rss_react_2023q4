@@ -9,12 +9,6 @@ class Results extends Component {
   declare context: React.ContextType<typeof SearchContext>;
   state = { data: [], prevSearch: undefined, isLoading: true };
 
-  async componentDidMount() {
-    if (!this.state.prevSearch) {
-      this.setState({ prevSearch: undefined });
-    }
-  }
-
   updateStateData(res: Species) {
     this.setState({
       data: res,
@@ -23,9 +17,12 @@ class Results extends Component {
     });
   }
 
-  async componentDidUpdate() {
-    if (this.context.search !== this.state.prevSearch) {
-      if (this.context.search === '') {
+  async getData() {
+    const { prevSearch } = this.state;
+    const search = this.context.search;
+
+    if (search !== prevSearch) {
+      if (search === '') {
         try {
           const res = await getAllData();
           this.updateStateData(res);
@@ -34,7 +31,7 @@ class Results extends Component {
         }
       } else {
         try {
-          const res = await searchData(this.context.search);
+          const res = await searchData(search);
           this.updateStateData(res);
         } catch (e) {
           console.error(e);
@@ -43,18 +40,33 @@ class Results extends Component {
     }
   }
 
+  componentDidMount() {
+    if (!this.state.prevSearch) {
+      this.setState({ prevSearch: undefined });
+    }
+  }
+
+  async componentDidUpdate() {
+    const { isLoading, prevSearch } = this.state;
+
+    if (!isLoading && this.context.search !== prevSearch) {
+      this.setState({ isLoading: true }, () => {
+        console.log('loading is set on');
+      });
+    } else {
+      this.getData();
+    }
+  }
+
   render(): ReactNode {
+    const { isLoading, data } = this.state;
     return (
       <>
-        {this.state.isLoading ? (
+        {isLoading ? (
           <div className="text-white py-4">Loading...</div>
         ) : (
           <div className="text-white py-4">
-            {!this.state.data.length ? (
-              'nothing to show'
-            ) : (
-              <Cards data={this.state.data} />
-            )}
+            {!data.length ? 'nothing to show' : <Cards data={data} />}
           </div>
         )}
       </>
