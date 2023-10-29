@@ -50,9 +50,7 @@ class Results extends Component {
     const { isLoading, prevSearch } = this.state;
 
     if (!isLoading && this.context.search !== prevSearch) {
-      this.setState({ isLoading: true }, () => {
-        console.log('loading is set on');
-      });
+      this.setState({ isLoading: true });
     } else {
       this.getData();
     }

@@ -18,13 +18,11 @@ class Search extends Component<SearchProps> {
   handleClick() {
     const searchItem = this.state.newSearch;
 
-    if (typeof searchItem === 'string') {
-      localStorage.setItem('previousSearch', searchItem);
-      const newSearchTrimmed = searchItem.trim();
-      this.props.updateContext({
-        search: newSearchTrimmed,
-      });
-    }
+    localStorage.setItem('previousSearch', searchItem);
+    const newSearchTrimmed = searchItem.trim();
+    this.props.updateContext({
+      search: newSearchTrimmed,
+    });
   }
 
   throwTestError() {
