@@ -14,7 +14,7 @@ export default class SearchInput extends Component<SearchInputProps> {
     return (
       <input
         className="rounded-full px-4 py-2"
-        placeholder='input name to search'
+        placeholder="input name to search"
         value={this.props.inputValue}
         onChange={this.handleInput}
       ></input>

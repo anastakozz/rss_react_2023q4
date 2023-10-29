@@ -11,19 +11,16 @@ class Results extends Component {
 
   async componentDidMount() {
     if (!this.state.prevSearch) {
-      this.setState({ prevSearch: undefined }, () => {
-        console.log('Results component did mount');
-      });
+      this.setState({ prevSearch: undefined });
     }
   }
 
   updateStateData(res: Species) {
-    this.setState(
-      { data: res, prevSearch: this.context.search, isLoading: false },
-      () => {
-        console.log('Results updated with new data');
-      }
-    );
+    this.setState({
+      data: res,
+      prevSearch: this.context.search,
+      isLoading: false,
+    });
   }
 
   async componentDidUpdate() {
