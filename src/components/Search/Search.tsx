@@ -17,6 +17,7 @@ class Search extends Component<SearchProps> {
 
   handleClick() {
     const searchItem = this.state.newSearch;
+
     if (typeof searchItem === 'string') {
       localStorage.setItem('previousSearch', searchItem);
       const newSearchTrimmed = searchItem.trim();
@@ -41,10 +42,12 @@ class Search extends Component<SearchProps> {
   }
 
   componentDidUpdate(): void {
-    if (this.state.hasError) {
+    const { hasError, newSearch, isInitial } = this.state;
+
+    if (hasError) {
       throw new Error('this is a test Error');
     }
-    if (this.state.newSearch === '' && this.state.isInitial) {
+    if (newSearch === '' && isInitial) {
       this.setState({ newSearch: this.context.search, isInitial: false });
     }
   }
