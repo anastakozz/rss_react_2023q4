@@ -48,7 +48,7 @@ class Results extends Component {
 
   render(): ReactNode {
     return (
-      <div>
+      <>
         {this.state.isLoading ? (
           <div className="text-white py-4">Loading...</div>
         ) : (
@@ -60,7 +60,7 @@ class Results extends Component {
             )}
           </div>
         )}
-      </div>
+      </>
     );
   }
 }
