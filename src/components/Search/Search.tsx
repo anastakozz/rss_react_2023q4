@@ -9,7 +9,7 @@ type SearchProps = { updateContext: (newContext: ContextProps) => void };
 class Search extends Component<SearchProps> {
   static contextType = SearchContext;
   declare context: React.ContextType<typeof SearchContext>;
-  state = { newSearch: '' };
+  state = { newSearch: '', hasError: false };
 
   updateState(value: string) {
     this.setState({ newSearch: value });
@@ -23,6 +23,16 @@ class Search extends Component<SearchProps> {
     });
   }
 
+  componentDidUpdate(): void {
+    if (this.state.hasError) {
+      throw new Error('this is a test Error');
+    }
+  }
+
+  throwTestError() {
+    this.setState({ hasError: true });
+  }
+
   render(): ReactNode {
     return (
       <div>
@@ -30,6 +40,10 @@ class Search extends Component<SearchProps> {
           STARWARS Species
         </h1>
         <div className="flex gap-4 py-4 justify-center">
+          <Button
+            text="Error"
+            onClick={this.throwTestError.bind(this)}
+          ></Button>
           <SearchInput updateState={this.updateState.bind(this)}></SearchInput>
           <Button text="Search" onClick={this.handleClick.bind(this)}></Button>
         </div>

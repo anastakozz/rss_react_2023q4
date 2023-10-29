@@ -4,6 +4,7 @@ import Results from './components/Results';
 import classNames from 'classnames';
 import { SearchContext, defaultContext } from './lib/context';
 import { ContextProps } from './lib/interfaces';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = { context: defaultContext };
@@ -33,11 +34,19 @@ class App extends Component {
           <div
             className={classNames(
               'max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10',
-              'min-w-[200px] min-h-screen'
+              'min-w-[200px] min-h-screen text-white'
             )}
           >
-            <Search updateContext={this.updateContext}></Search>
-            <Results></Results>
+            <ErrorBoundary
+              fallback={
+                <p className="text-center pt-10">
+                  Ooops! Something went wrong... Please, refresh the page!
+                </p>
+              }
+            >
+              <Search updateContext={this.updateContext}></Search>
+              <Results></Results>
+            </ErrorBoundary>
           </div>
         </div>
       </SearchContext.Provider>
