@@ -2,8 +2,8 @@ import { Component } from 'react';
 import Search from './components/Search';
 import Results from './components/Results';
 import classNames from 'classnames';
-import { SearchContext, defaultContext } from './lib/context';
-import { ContextProps } from './lib/interfaces';
+import { SearchContext, defaultContext } from './modules/context';
+import { ContextProps } from './modules/interfaces';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 class App extends Component {

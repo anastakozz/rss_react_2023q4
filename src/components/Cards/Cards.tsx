@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { Species } from '../../lib/types';
+import { Species } from '../../modules/types';
 import ResultsCard from '../ResultsCard';
 
 type CardsProps = {

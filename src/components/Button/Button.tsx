@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Component, ReactNode } from 'react';
-import { ButtonProps } from '../../lib/interfaces';
+import { ButtonProps } from '../../modules/interfaces';
 
 class Button extends Component<ButtonProps> {
   render(): ReactNode {

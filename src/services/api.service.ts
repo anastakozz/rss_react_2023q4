@@ -1,4 +1,4 @@
-import { Species } from '../lib/types';
+import { Species } from '../modules/types';
 
 const baseUrl = 'https://swapi.dev/api/species/';
 

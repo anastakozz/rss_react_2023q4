@@ -1,8 +1,8 @@
 import { Component, ReactNode } from 'react';
-import { SearchContext } from '../../lib/context';
+import { SearchContext } from '../../modules/context';
 import { getAllData, searchData } from '../../services/api.service';
 import Cards from '../Cards';
-import { Species } from '../../lib/types';
+import { Species } from '../../modules/types';
 
 class Results extends Component {
   static contextType = SearchContext;

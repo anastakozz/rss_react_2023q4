@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { SpecieProps } from '../../lib/interfaces';
+import { SpecieProps } from '../../modules/interfaces';
 
 type ResultCardProps = {
   item: SpecieProps;
