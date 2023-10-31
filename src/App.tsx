@@ -18,8 +18,8 @@ class App extends Component {
   render() {
     return (
       <SearchContext.Provider value={this.state.context}>
-        <div className="bg-slate-700">
-          <div
+        <main className="bg-slate-700">
+          <section
             className={classNames(
               'max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10',
               'min-w-[200px] min-h-screen'
@@ -35,8 +35,8 @@ class App extends Component {
               <Search updateContext={this.updateContext}></Search>
               <Results></Results>
             </ErrorBoundary>
-          </div>
-        </div>
+          </section>
+        </main>
       </SearchContext.Provider>
     );
   }

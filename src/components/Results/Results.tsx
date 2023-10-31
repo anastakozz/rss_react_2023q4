@@ -63,9 +63,9 @@ class Results extends Component {
         {isLoading ? (
           <div className="text-white py-4">Loading...</div>
         ) : (
-          <div className="text-white py-4">
+          <article className="text-white py-4">
             {!data.length ? 'nothing to show' : <Cards data={data} />}
-          </div>
+          </article>
         )}
       </>
     );

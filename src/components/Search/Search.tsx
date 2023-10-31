@@ -51,10 +51,7 @@ class Search extends Component<SearchProps> {
 
   render(): ReactNode {
     return (
-      <div>
-        <h1 className="text-6xl text-center text-white py-4">
-          STARWARS Species
-        </h1>
+      <section>
         <div className="flex gap-4 py-4 justify-center">
           <Button
             text="Error"
@@ -69,7 +66,7 @@ class Search extends Component<SearchProps> {
           <Button text="Search" onClick={this.handleClick.bind(this)}></Button>
         </div>
         <hr className="w-full" />
-      </div>
+      </section>
     );
   }
 }
