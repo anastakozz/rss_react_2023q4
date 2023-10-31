@@ -17,9 +17,8 @@ class Search extends Component<SearchProps> {
 
   handleClick() {
     const searchItem = this.state.newSearch;
-
-    localStorage.setItem('previousSearch', searchItem);
     const newSearchTrimmed = searchItem.trim();
+    localStorage.setItem('previousSearch', newSearchTrimmed);
     this.props.updateContext({
       search: newSearchTrimmed,
     });
@@ -59,7 +58,9 @@ class Search extends Component<SearchProps> {
         <div className="flex gap-4 py-4 justify-center">
           <Button
             text="Error"
-            onClick={this.throwTestError.bind(this)}
+            onClick={() => {
+              this.throwTestError();
+            }}
           ></Button>
           <SearchInput
             updateState={this.updateState.bind(this)}
