@@ -1,74 +1,65 @@
 import { SearchContext } from '../../modules/context';
-import { Component, ReactNode } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import Button from '../Button';
 import SearchInput from '../SearchInput';
 import { ContextProps } from '../../modules/interfaces';
 
 type SearchProps = { updateContext: (newContext: ContextProps) => void };
 
-class Search extends Component<SearchProps> {
-  static contextType = SearchContext;
-  declare context: React.ContextType<typeof SearchContext>;
-  state = { isInitial: true, newSearch: '', hasError: false };
+function Search(props: SearchProps): ReactNode {
+  const context = useContext(SearchContext);
+  const [hasError, setHasError] = useState(false);
+  const [newSearch, setNewSearch] = useState(context.search);
 
-  updateState(value: string) {
-    this.setState({ newSearch: value });
+  function updateState(value: string) {
+    setNewSearch(value);
   }
 
-  handleClick() {
-    const searchItem = this.state.newSearch;
-    const newSearchTrimmed = searchItem.trim();
+  const handleClick = () => {
+    const newSearchTrimmed = newSearch.trim();
     localStorage.setItem('previousSearch', newSearchTrimmed);
-    this.props.updateContext({
+    props.updateContext({
       search: newSearchTrimmed,
     });
-  }
+  };
 
-  throwTestError() {
-    this.setState({ hasError: true });
-  }
+  const throwTestError = () => {
+    setHasError(true);
+  };
 
-  componentDidMount(): void {
-    const previousSearch = localStorage.getItem('previousSearch');
-
-    if (previousSearch) {
-      this.props.updateContext({
-        search: previousSearch,
-      });
-    }
-  }
-
-  componentDidUpdate(): void {
-    const { hasError, newSearch, isInitial } = this.state;
-
+  useEffect(() => {
     if (hasError) {
       throw new Error('this is a test Error');
-    }
-    if (newSearch === '' && isInitial) {
-      this.setState({ newSearch: this.context.search, isInitial: false });
-    }
-  }
+    } else {
+      const previousSearch = localStorage.getItem('previousSearch');
 
-  render(): ReactNode {
-    return (
-      <section>
-        <div className="flex gap-4 py-4 justify-center">
-          <Button
-            text="Error"
-            onClick={() => {
-              this.throwTestError();
-            }}
-          ></Button>
-          <SearchInput
-            updateState={this.updateState.bind(this)}
-            inputValue={this.state.newSearch}
-          ></SearchInput>
-          <Button text="Search" onClick={this.handleClick.bind(this)}></Button>
-        </div>
-        <hr className="w-full" />
-      </section>
-    );
-  }
+      if (previousSearch && previousSearch !== context.search) {
+        props.updateContext({
+          search: previousSearch,
+        });
+        setNewSearch(previousSearch);
+      }
+    }
+  }, [context.search, props, hasError]);
+
+  return (
+    <section>
+      <div className="flex gap-4 py-4 justify-center">
+        <Button
+          text="Error"
+          onClick={() => {
+            throwTestError();
+          }}
+        ></Button>
+        <SearchInput
+          updateState={updateState}
+          inputValue={newSearch}
+        ></SearchInput>
+        <Button text="Search" onClick={handleClick}></Button>
+      </div>
+      <hr className="w-full" />
+    </section>
+  );
 }
 
 export default Search;

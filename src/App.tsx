@@ -1,45 +1,42 @@
-import { Component } from 'react';
 import Search from './components/Search';
 import Results from './components/Results';
 import classNames from 'classnames';
 import { SearchContext, defaultContext } from './modules/context';
 import { ContextProps } from './modules/interfaces';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import { useState } from 'react';
 
-class App extends Component {
-  state = { context: defaultContext };
+function App() {
+  const [context, setContext] = useState<ContextProps>(defaultContext);
 
-  updateContext = (newContext: ContextProps) => {
-    this.setState({ context: newContext }, () => {
-      localStorage.setItem('previousSearch', newContext.search);
-    });
+  const updateContext = (newContext: ContextProps) => {
+    setContext(newContext);
+    localStorage.setItem('previousSearch', newContext.search);
   };
 
-  render() {
-    return (
-      <SearchContext.Provider value={this.state.context}>
-        <main className="bg-slate-700">
-          <section
-            className={classNames(
-              'max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10',
-              'min-w-[200px] min-h-screen'
-            )}
+  return (
+    <SearchContext.Provider value={context}>
+      <main className="bg-slate-700">
+        <section
+          className={classNames(
+            'max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10',
+            'min-w-[200px] min-h-screen'
+          )}
+        >
+          <ErrorBoundary
+            fallback={
+              <p className="text-center pt-10 text-white">
+                Ooops! Something went wrong... Please, refresh the page!
+              </p>
+            }
           >
-            <ErrorBoundary
-              fallback={
-                <p className="text-center pt-10 text-white">
-                  Ooops! Something went wrong... Please, refresh the page!
-                </p>
-              }
-            >
-              <Search updateContext={this.updateContext}></Search>
-              <Results></Results>
-            </ErrorBoundary>
-          </section>
-        </main>
-      </SearchContext.Provider>
-    );
-  }
+            <Search updateContext={updateContext}></Search>
+            <Results></Results>
+          </ErrorBoundary>
+        </section>
+      </main>
+    </SearchContext.Provider>
+  );
 }
 
 export default App;

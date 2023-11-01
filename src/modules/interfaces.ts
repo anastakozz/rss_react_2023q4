@@ -8,5 +8,5 @@ export interface ButtonProps {
 }
 
 export interface ContextProps {
-  [key: string]: string;
+  search: string;
 }
