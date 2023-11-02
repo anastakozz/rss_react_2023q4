@@ -1,8 +1,7 @@
-import { SearchContext } from '../../modules/context';
+import { SearchContext } from '../modules/context';
 import { ReactNode, useContext, useEffect, useState } from 'react';
-import Button from '../Button';
-import SearchInput from '../SearchInput';
-import { ContextProps } from '../../modules/interfaces';
+import {Button, SearchInput} from './components';
+import { ContextProps } from '../modules/interfaces';
 
 type SearchProps = { updateContext: (newContext: ContextProps) => void };
 

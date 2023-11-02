@@ -1,5 +1,5 @@
-import { Shows } from '../../modules/types';
-import ResultsCard from '../ResultsCard';
+import { Shows } from '../modules/types';
+import { ResultsCard } from './components';
 
 type CardsProps = {
   data: Shows;

@@ -1,5 +1,4 @@
-import Search from './components/Search';
-import Results from './components/Results';
+import {Search, Results} from './components/components';
 import classNames from 'classnames';
 import { SearchContext, defaultContext } from './modules/context';
 import { ContextProps } from './modules/interfaces';

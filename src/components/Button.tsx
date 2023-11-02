@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ButtonProps } from '../../modules/interfaces';
+import { ButtonProps } from '../modules/interfaces';
 
 function Button(props: ButtonProps) {
   return (
