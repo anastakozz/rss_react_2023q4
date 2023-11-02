@@ -1,32 +1,27 @@
-import { SpecieProps } from '../../modules/interfaces';
+import { ShowsProps } from '../../modules/interfaces';
 
 type ResultCardProps = {
-  item: SpecieProps;
+  item: ShowsProps;
 };
 
 export default function ResultsCard(props: ResultCardProps) {
   return (
-    <div className="bg-slate-500 max-w-xs p-4 rounded">
-      <div className="underline my-1">
-        <span className="">Name: </span>
-        <span className="font-bold">{props.item.name}</span>
+    <article className="bg-slate-500 max-w-xs p-4 rounded">
+      <a
+        href={typeof props.item.imdbUrl === 'string' ? props.item.imdbUrl : ''}
+        className="underline my-1 hover:text-orange-300 transition"
+      >
+        <span className="">Title: </span>
+        <span className="font-bold">{props.item.titleOriginal}</span>
+      </a>
+      <div>
+        <span className="">Country: </span>
+        <span className="font-bold">{props.item.country}</span>
       </div>
       <div>
-        <span className="">Classification: </span>
-        <span className="font-bold">{props.item.classification}</span>
+        <span className="">IMDB Rating: </span>
+        <span className="font-bold">{props.item.imdbRating}</span>
       </div>
-      <div>
-        <span className="">Language: </span>
-        <span className="font-bold">{props.item.language}</span>
-      </div>
-      <div>
-        <span className="">Skin colors: </span>
-        <span className="font-bold">{props.item.skin_colors}</span>
-      </div>
-      <div>
-        <span className="">Average_lifespan: </span>
-        <span className="font-bold">{props.item.average_lifespan}</span>
-      </div>
-    </div>
+    </article>
   );
 }

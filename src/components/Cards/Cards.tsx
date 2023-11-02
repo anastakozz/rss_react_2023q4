@@ -1,8 +1,8 @@
-import { Species } from '../../modules/types';
+import { Shows } from '../../modules/types';
 import ResultsCard from '../ResultsCard';
 
 type CardsProps = {
-  data: Species;
+  data: Shows;
 };
 
 export default function Cards(props: CardsProps) {

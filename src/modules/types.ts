@@ -1,3 +1,3 @@
-import { SpecieProps } from './interfaces';
+import { ShowsProps } from './interfaces';
 
-export type Species = SpecieProps[];
+export type Shows = ShowsProps[];

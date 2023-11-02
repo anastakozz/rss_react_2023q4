@@ -1,15 +1,33 @@
-import { Species } from '../modules/types';
+// import { Species } from '../modules/types';
 
-const baseUrl = 'https://swapi.dev/api/species/';
+const baseUrl = new URL('https://api.myshows.me/v2/rpc/');
 
-export async function getAllData(): Promise<Species> {
-  const response = await fetch(`${baseUrl}`);
-  const res = await response.json();
-  return res.results;
-}
+export async function searchData(query: string) {
+  try {
+    const response = await fetch(baseUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'shows.Search',
+        params: {
+          query,
+        },
+        id: 1,
+      }),
+    });
 
-export async function searchData(param: string) {
-  const response = await fetch(`${baseUrl}?search=${param}`);
-  const res = await response.json();
-  return res.results;
+    if (!response.ok) {
+      throw new Error('Ошибка при выполнении запроса');
+    }
+
+    const res = await response.json();
+    console.log(res.result);
+    return res.result;
+  } catch (error) {
+    console.error(error);
+  }
 }

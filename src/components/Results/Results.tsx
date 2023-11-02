@@ -1,12 +1,12 @@
 import { SearchContext } from '../../modules/context';
 import { searchData } from '../../services/api.service';
 import Cards from '../Cards';
-import { Species } from '../../modules/types';
+import { Shows } from '../../modules/types';
 import { useContext, useState, useEffect } from 'react';
 
 function Results() {
   const context = useContext(SearchContext);
-  const [data, setData] = useState<Species | null>(null);
+  const [data, setData] = useState<Shows | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
