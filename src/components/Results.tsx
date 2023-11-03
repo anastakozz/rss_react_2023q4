@@ -23,14 +23,14 @@ function Results(props: SearchProps) {
   useEffect(() => {
     let ignore = false;
     async function updateData() {
-      if (context.search && pageSize) {
+      if (context.search !== null && pageSize) {
         setData(null);
         setIsLoading(true);
         const res = await searchData(context.search, +pageSize, page);
         const count = await getShowsCount(context.search);
         if (!ignore) {
           setData(res);
-          setPagesCount(count);
+          setPagesCount(Math.ceil(count / +pageSize));
           setIsLoading(false);
         }
       }
@@ -44,7 +44,7 @@ function Results(props: SearchProps) {
 
   return (
     <section className="pt-4">
-      <div className='flex justify-between'>
+      <div className="flex justify-between">
         <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
         <>{pagesCount ? <Pagination total={pagesCount} /> : <></>}</>
       </div>

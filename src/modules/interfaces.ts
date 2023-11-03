@@ -1,6 +1,7 @@
 export interface ButtonProps {
   text: string;
   onClick?: () => void;
+  small?: boolean;
 }
 
 export interface ContextProps {

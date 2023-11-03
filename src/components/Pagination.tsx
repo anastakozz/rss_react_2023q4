@@ -5,5 +5,5 @@ type paginationProps = {
 };
 
 export default function Pagination(props: paginationProps) {
-  return <Button text={`${props.total}`} />;
+  return <Button text={`${props.total}`} small={true}/>;
 }

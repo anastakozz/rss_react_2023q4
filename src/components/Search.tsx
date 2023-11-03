@@ -15,7 +15,7 @@ function Search(props: SearchProps): ReactNode {
   }
 
   const handleClick = () => {
-    if (newSearch) {
+    if (newSearch !== null) {
       const newSearchTrimmed = newSearch.trim();
       localStorage.setItem('previousSearch', newSearchTrimmed);
       props.updateContext({
@@ -38,26 +38,22 @@ function Search(props: SearchProps): ReactNode {
   return (
     <section>
       {' '}
-      {newSearch ? (
-        <>
-          <div className="flex gap-4 py-4 justify-center">
-            <Button
-              text="Error"
-              onClick={() => {
-                throwTestError();
-              }}
-            ></Button>
-            <SearchInput
-              updateState={updateState}
-              inputValue={newSearch}
-            ></SearchInput>
-            <Button text="Search" onClick={handleClick}></Button>
-          </div>
-          <hr className="w-full" />
-        </>
-      ) : (
-        <></>
-      )}
+      <>
+        <div className="flex gap-4 py-4 justify-center">
+          <Button
+            text="Error"
+            onClick={() => {
+              throwTestError();
+            }}
+          ></Button>
+          <SearchInput
+            updateState={updateState}
+            inputValue={newSearch ? newSearch : ''}
+          ></SearchInput>
+          <Button text="Search" onClick={handleClick}></Button>
+        </div>
+        <hr className="w-full" />
+      </>
     </section>
   );
 }
