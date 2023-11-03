@@ -5,6 +5,8 @@ export interface ButtonProps {
 
 export interface ContextProps {
   search: string;
+  pageSize: string;
+  updateContext?: (newContext: ContextProps) => void;
 }
 
 export interface ShowsProps {

@@ -1,8 +1,12 @@
-// import { Species } from '../modules/types';
+import { Shows } from '../modules/types';
 
 const baseUrl = new URL('https://api.myshows.me/v2/rpc/');
 
-export async function searchData(query: string) {
+export async function searchData(
+  query: string,
+  pageSize: number,
+  page: number
+): Promise<Shows> {
   try {
     const response = await fetch(baseUrl, {
       method: 'POST',
@@ -12,9 +16,13 @@ export async function searchData(query: string) {
       },
       body: JSON.stringify({
         jsonrpc: '2.0',
-        method: 'shows.Search',
+        method: 'shows.Get',
         params: {
-          query,
+          search: {
+            query,
+          },
+          page,
+          pageSize,
         },
         id: 1,
       }),
@@ -29,5 +37,6 @@ export async function searchData(query: string) {
     return res.result;
   } catch (error) {
     console.error(error);
+    return [];
   }
 }

@@ -1,4 +1,4 @@
-import {Search, Results} from './components/components';
+import { Search, Results } from './components/components';
 import classNames from 'classnames';
 import { SearchContext, defaultContext } from './modules/context';
 import { ContextProps } from './modules/interfaces';
@@ -10,7 +10,6 @@ function App() {
 
   const updateContext = (newContext: ContextProps) => {
     setContext(newContext);
-    localStorage.setItem('previousSearch', newContext.search);
   };
 
   return (
@@ -30,7 +29,7 @@ function App() {
             }
           >
             <Search updateContext={updateContext}></Search>
-            <Results></Results>
+            <Results updateContext={updateContext}></Results>
           </ErrorBoundary>
         </section>
       </main>

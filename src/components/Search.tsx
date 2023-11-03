@@ -1,6 +1,6 @@
 import { SearchContext } from '../modules/context';
 import { ReactNode, useContext, useEffect, useState } from 'react';
-import {Button, SearchInput} from './components';
+import { Button, SearchInput } from './components';
 import { ContextProps } from '../modules/interfaces';
 
 type SearchProps = { updateContext: (newContext: ContextProps) => void };
@@ -18,6 +18,7 @@ function Search(props: SearchProps): ReactNode {
     const newSearchTrimmed = newSearch.trim();
     localStorage.setItem('previousSearch', newSearchTrimmed);
     props.updateContext({
+      ...context,
       search: newSearchTrimmed,
     });
   };
@@ -34,12 +35,13 @@ function Search(props: SearchProps): ReactNode {
 
       if (previousSearch && previousSearch !== context.search) {
         props.updateContext({
+          ...context,
           search: previousSearch,
         });
         setNewSearch(previousSearch);
       }
     }
-  }, [context.search, props, hasError]);
+  }, [context, props, hasError]);
 
   return (
     <section>
