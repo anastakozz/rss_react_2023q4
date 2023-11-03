@@ -15,12 +15,14 @@ function Search(props: SearchProps): ReactNode {
   }
 
   const handleClick = () => {
-    const newSearchTrimmed = newSearch.trim();
-    localStorage.setItem('previousSearch', newSearchTrimmed);
-    props.updateContext({
-      ...context,
-      search: newSearchTrimmed,
-    });
+    if (newSearch) {
+      const newSearchTrimmed = newSearch.trim();
+      localStorage.setItem('previousSearch', newSearchTrimmed);
+      props.updateContext({
+        ...context,
+        search: newSearchTrimmed,
+      });
+    }
   };
 
   const throwTestError = () => {
@@ -30,35 +32,32 @@ function Search(props: SearchProps): ReactNode {
   useEffect(() => {
     if (hasError) {
       throw new Error('this is a test Error');
-    } else {
-      const previousSearch = localStorage.getItem('previousSearch');
-
-      if (previousSearch && previousSearch !== context.search) {
-        props.updateContext({
-          ...context,
-          search: previousSearch,
-        });
-        setNewSearch(previousSearch);
-      }
     }
-  }, [context, props, hasError]);
+  }, [hasError]);
 
   return (
     <section>
-      <div className="flex gap-4 py-4 justify-center">
-        <Button
-          text="Error"
-          onClick={() => {
-            throwTestError();
-          }}
-        ></Button>
-        <SearchInput
-          updateState={updateState}
-          inputValue={newSearch}
-        ></SearchInput>
-        <Button text="Search" onClick={handleClick}></Button>
-      </div>
-      <hr className="w-full" />
+      {' '}
+      {newSearch ? (
+        <>
+          <div className="flex gap-4 py-4 justify-center">
+            <Button
+              text="Error"
+              onClick={() => {
+                throwTestError();
+              }}
+            ></Button>
+            <SearchInput
+              updateState={updateState}
+              inputValue={newSearch}
+            ></SearchInput>
+            <Button text="Search" onClick={handleClick}></Button>
+          </div>
+          <hr className="w-full" />
+        </>
+      ) : (
+        <></>
+      )}
     </section>
   );
 }

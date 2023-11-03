@@ -1,7 +1,6 @@
-// import { SearchContext } from '../modules/context';
 import { SearchContext } from '../modules/context';
 import Button from './Button';
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 
 type Props = {
   updateData: (value: string) => void;
@@ -16,31 +15,23 @@ export default function PageSizeSwitch(props: Props) {
   };
 
   const handleClick = () => {
-    props.updateData(value);
-    localStorage.setItem('pageSize', value);
+    if (value) {
+      props.updateData(value);
+      localStorage.setItem('pageSize', value);
+    }
   };
 
-  useEffect(() => {
-    const previousValue = localStorage.getItem('pageSize');
-    if (previousValue && previousValue !== context.pageSize) {
-      setValue(previousValue);
-      props.updateData(previousValue);
-    }
-  }, [props, context]);
-
   return (
-    <>
-      <div className="bg-white rounded-full max-w-fit">
-        <input
-          className="py-2 px-4 rounded-full focus:outline-none"
-          type="number"
-          min="1"
-          max="30"
-          onChange={handleChange}
-          value={value}
-        ></input>
-        <Button text="Send" onClick={handleClick}></Button>
-      </div>
-    </>
+    <div className="bg-white rounded-full max-w-fit">
+      <input
+        className="py-2 px-4 rounded-full focus:outline-none"
+        type="number"
+        min="1"
+        max="30"
+        onChange={handleChange}
+        value={value ? value : ''}
+      ></input>
+      <Button text="Set page size" onClick={handleClick}></Button>
+    </div>
   );
 }

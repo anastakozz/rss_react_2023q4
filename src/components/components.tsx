@@ -5,6 +5,7 @@ import Results from './Results';
 import SearchInput from './SearchInput';
 import ResultsCard from './ResultsCard';
 import Button from './Button';
+import Pagination from './Pagination';
 export {
   PageSizeSwitch,
   Cards,
@@ -13,4 +14,5 @@ export {
   SearchInput,
   Results,
   ResultsCard,
+  Pagination
 };

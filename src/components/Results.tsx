@@ -1,8 +1,8 @@
 import { SearchContext } from '../modules/context';
-import { searchData } from '../services/api.service';
+import { getShowsCount, searchData } from '../services/api.service';
 import { Shows } from '../modules/types';
 import { useContext, useState, useEffect } from 'react';
-import { PageSizeSwitch, Cards } from './components';
+import { PageSizeSwitch, Cards, Pagination } from './components';
 import { ContextProps } from '../modules/interfaces';
 
 type SearchProps = { updateContext: (newContext: ContextProps) => void };
@@ -12,6 +12,7 @@ function Results(props: SearchProps) {
   const [data, setData] = useState<Shows | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [pageSize, setPageSize] = useState(context.pageSize);
+  const [pagesCount, setPagesCount] = useState(0);
   const page = 0;
 
   const updatePageSize = (value: string) => {
@@ -22,12 +23,16 @@ function Results(props: SearchProps) {
   useEffect(() => {
     let ignore = false;
     async function updateData() {
-      setData(null);
-      setIsLoading(true);
-      const res = await searchData(context.search, +pageSize, page);
-      if (!ignore) {
-        setData(res);
-        setIsLoading(false);
+      if (context.search && pageSize) {
+        setData(null);
+        setIsLoading(true);
+        const res = await searchData(context.search, +pageSize, page);
+        const count = await getShowsCount(context.search);
+        if (!ignore) {
+          setData(res);
+          setPagesCount(count);
+          setIsLoading(false);
+        }
       }
     }
     updateData();
@@ -39,7 +44,11 @@ function Results(props: SearchProps) {
 
   return (
     <section className="pt-4">
-      <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
+      <div className='flex justify-between'>
+        <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
+        <>{pagesCount ? <Pagination total={pagesCount} /> : <></>}</>
+      </div>
+
       <article>
         {isLoading ? (
           <div className="text-white py-4">Loading...</div>
