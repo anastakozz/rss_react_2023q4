@@ -22,6 +22,7 @@ function Results(props: SearchProps) {
   const updatePageSize = (value: string) => {
     setPageSize(value);
     props.updateContext({ ...context, pageSize: value });
+    navigate('/search/1');
   };
 
   useEffect(() => {
