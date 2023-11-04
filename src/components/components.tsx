@@ -1,4 +1,3 @@
-import PageSizeSwitch from './pageSizeSwitch';
 import Cards from './Cards';
 import Search from './Search';
 import Results from './Results';
@@ -6,6 +5,8 @@ import SearchInput from './SearchInput';
 import ResultsCard from './ResultsCard';
 import Button from './Button';
 import Pagination from './Pagination';
+import Details from './Details';
+import PageSizeSwitch from './PageSizeSwitch';
 export {
   PageSizeSwitch,
   Cards,
@@ -14,5 +15,6 @@ export {
   SearchInput,
   Results,
   ResultsCard,
-  Pagination
+  Pagination,
+  Details
 };
