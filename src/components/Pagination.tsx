@@ -12,30 +12,39 @@ export default function Pagination(props: paginationProps) {
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    navigate(`/search/${page + 1}`)
+    navigate(`/search/${page + 1}`);
   };
   const handlePrevClick = () => {
-    navigate(`/search/${page - 1}`)
+    navigate(`/search/${page - 1}`);
   };
 
-  useEffect(() =>{
-    if(params.pageNumber){
-        setPage(+params.pageNumber)
+  useEffect(() => {
+    if (params.pageNumber) {
+      if (+params.pageNumber <= props.total) {
+        setPage(+params.pageNumber);
+      } else {
+        navigate('search/1');
+      }
     }
-  }, [page, params])
+  }, [page, params, navigate, props]);
 
   return (
     <div className="flex gap-4">
       <Button
         text={'Prev'}
         small={true}
-        // disabled={true}
+        disabled={!!(page === 1)}
         onClick={handlePrevClick}
       ></Button>
       <div className="py-2 rounded-full bg-white px-4">
         page {page} of {props.total}
       </div>
-      <Button text={'Next'} small={true} onClick={handleNextClick}></Button>
+      <Button
+        text={'Next'}
+        small={true}
+        onClick={handleNextClick}
+        disabled={!!(page === props.total)}
+      ></Button>
     </div>
   );
 }

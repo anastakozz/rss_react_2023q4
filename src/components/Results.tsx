@@ -46,7 +46,7 @@ function Results(props: SearchProps) {
       }
     }
 
-    if (!params.pageNumber) {
+    if (!params.pageNumber || +params.pageNumber < 1 ) {
       navigate('/search/1');
     } else {
       updateData();
