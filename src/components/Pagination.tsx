@@ -1,27 +1,35 @@
 import { Button } from './components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 type paginationProps = {
   total: number;
 };
 
 export default function Pagination(props: paginationProps) {
-  const [page, setPage] = useState(0);
-
+  const [page, setPage] = useState(1);
+  const params = useParams();
+  const navigate = useNavigate();
 
   const handleNextClick = () => {
-    setPage(page + 1)
+    navigate(`/search/${page + 1}`)
   };
   const handlePrevClick = () => {
-    setPage(page - 1)
+    navigate(`/search/${page - 1}`)
   };
+
+  useEffect(() =>{
+    if(params.pageNumber){
+        setPage(+params.pageNumber)
+    }
+  }, [page, params])
 
   return (
     <div className="flex gap-4">
       <Button
         text={'Prev'}
         small={true}
-        disabled={true}
+        // disabled={true}
         onClick={handlePrevClick}
       ></Button>
       <div className="py-2 rounded-full bg-white px-4">

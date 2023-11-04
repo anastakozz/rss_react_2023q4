@@ -17,7 +17,6 @@ export default function PageSizeSwitch(props: Props) {
   const handleClick = () => {
     if (value) {
       props.updateData(value);
-      localStorage.setItem('pageSize', value);
     }
   };
 
