@@ -7,7 +7,7 @@ type CardsProps = {
 
 export default function Cards(props: CardsProps) {
   return (
-    <div className="grid grid-flow-dense grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-flow-dense grid-cols-2 md:grid-cols-3  gap-4">
       {props.data.map((item, index) => {
         return (
           <div key={index}>

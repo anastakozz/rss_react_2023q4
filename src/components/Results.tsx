@@ -59,13 +59,13 @@ function Results(props: SearchProps) {
   }, [context, pageSize, page, params, navigate]);
 
   return (
-    <section className="pt-4">
-      <div className="flex justify-between">
+    <section>
+      <div className="flex justify-between py-4">
         <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
         <>{pagesCount ? <Pagination total={pagesCount} /> : <></>}</>
       </div>
 
-      <article>
+      <article className='overflow-scroll'>
         {isLoading ? (
           <div className="text-white py-4">Loading...</div>
         ) : (

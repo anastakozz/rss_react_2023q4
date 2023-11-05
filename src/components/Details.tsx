@@ -36,14 +36,17 @@ export default function Details() {
   }, [params]);
 
   return (
-    <div className="w-full h-full absolute z-10 top-0 flex">
-      <div className=" w-1/2 bg-black/50" onClick={closeDetails}></div>
-      <div className="py-4 px-8 w-1/2 bg-slate-700 overflow-scroll">
-        <div className="flex justify-end">
+    <div className="w-1/2 h-full p-4 relative">
+      <div
+        className="w-full h-full bg-black/50 absolute z-10 top-0 -left-full"
+        onClick={closeDetails}
+      ></div>
+      <div className="h-full bg-slate-700 overflow-scroll">
+        <div className="flex justify-end pb-4">
           <Button text="Close" onClick={closeDetails}></Button>
         </div>
 
-        <article className="flex gap-4 flex-wrap py-4 text-white">
+        <article className="flex gap-4 flex-wrap text-white ">
           {isLoading ? (
             'loading... Please, wait'
           ) : (
