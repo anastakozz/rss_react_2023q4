@@ -4,6 +4,7 @@ import { SearchContext, defaultContext } from './modules/context';
 import { ContextProps } from './modules/interfaces';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   const [context, setContext] = useState<ContextProps>(defaultContext);
@@ -14,8 +15,9 @@ function App() {
 
   return (
     <SearchContext.Provider value={context}>
-      <main className="bg-slate-700">
-        <section
+      <div className="bg-slate-700">
+      <Outlet />
+        <div
           className={classNames(
             'max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10',
             'min-w-[200px] min-h-screen'
@@ -31,8 +33,9 @@ function App() {
             <Search updateContext={updateContext}></Search>
             <Results updateContext={updateContext}></Results>
           </ErrorBoundary>
-        </section>
-      </main>
+        </div>
+        
+      </div>
     </SearchContext.Provider>
   );
 }

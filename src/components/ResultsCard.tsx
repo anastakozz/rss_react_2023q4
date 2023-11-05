@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ShowsProps } from '../modules/interfaces';
 
 type ResultCardProps = {
@@ -5,24 +6,24 @@ type ResultCardProps = {
 };
 
 export default function ResultsCard(props: ResultCardProps) {
+  const item = props.item;
   return (
-    <div className="bg-slate-500 max-w-xs p-4 rounded">
-      <a
-        href={
-          typeof props.item.promoUrl === 'string' ? props.item.promoUrl : ''
-        }
-        className="underline my-1 hover:text-orange-300 transition"
-      >
-        <span className="font-bold">{props.item.titleOriginal}</span>
-      </a>
-      <div>
-        <span className="">Total seasons: </span>
-        <span className="font-bold">{props.item.totalSeasons}</span>
+    <Link to={`${item.id}`} relative="path">
+      <div className="bg-slate-500 max-w-xs p-4 rounded" id={`${item.id}`}>
+        <div
+          className="underline my-1 hover:text-orange-300 transition"
+        >
+          <span className="font-bold">{item.titleOriginal}</span>
+        </div>
+        <div>
+          <span className="">Total seasons: </span>
+          <span className="font-bold">{item.totalSeasons}</span>
+        </div>
+        <div>
+          <span className="">Rating: </span>
+          <span className="font-bold">{item.rating}</span>
+        </div>
       </div>
-      <div>
-        <span className="">Rating: </span>
-        <span className="font-bold">{props.item.rating}</span>
-      </div>
-    </div>
+    </Link>
   );
 }

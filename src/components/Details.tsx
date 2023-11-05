@@ -1,3 +1,4 @@
 export default function Details() {
-  return <>Hello</>;
+  console.log('outlet')
+  return <div className="w-1/2 h-full bg-white">Hello</div>;
 }
