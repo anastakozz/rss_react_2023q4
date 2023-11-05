@@ -18,7 +18,7 @@ function App() {
       <div className="bg-slate-700 flex h-screen">
         <div
           className={classNames(
-            'w-1/2 mx-auto px-4 md:px-6 lg:px-8 xl:px-10 h-full overflow-scroll'
+            'w-1/2 mx-auto px-4 md:px-6 lg:px-8 xl:px-10 h-full overflow-scroll overscroll-contain'
           )}
         >
           <ErrorBoundary

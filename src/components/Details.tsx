@@ -41,7 +41,7 @@ export default function Details() {
         className="w-full h-full bg-black/50 absolute z-10 top-0 -left-full"
         onClick={closeDetails}
       ></div>
-      <div className="h-full bg-slate-700 overflow-scroll">
+      <div className="h-full bg-slate-700 overflow-scroll overscroll-contain">
         <div className="flex justify-end pb-4">
           <Button text="Close" onClick={closeDetails}></Button>
         </div>
