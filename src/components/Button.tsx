@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { ButtonProps } from '../modules/interfaces';
 
 function Button(props: ButtonProps) {
-  const width = props.small ? 'min-w-[40px] px-4' : 'min-w-[90px] px-4'
+  const width = props.small ? 'min-w-[40px] px-4' : 'min-w-[90px] px-4';
   return (
     <button
       className={classNames(
@@ -10,7 +10,7 @@ function Button(props: ButtonProps) {
         'py-2 rounded-full',
         'active:scale-95',
         'disabled:bg-slate-600',
-         width
+        width
       )}
       onClick={props.onClick}
       disabled={props.disabled}

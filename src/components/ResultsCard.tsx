@@ -10,9 +10,7 @@ export default function ResultsCard(props: ResultCardProps) {
   return (
     <Link to={`${item.id}`} relative="path">
       <div className="bg-slate-500 max-w-xs p-4 rounded" id={`${item.id}`}>
-        <div
-          className="underline my-1 hover:text-orange-300 transition"
-        >
+        <div className="underline my-1 hover:text-orange-300 transition">
           <span className="font-bold">{item.titleOriginal}</span>
         </div>
         <div>

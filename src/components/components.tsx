@@ -16,5 +16,5 @@ export {
   Results,
   ResultsCard,
   Pagination,
-  Details
+  Details,
 };
