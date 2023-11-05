@@ -35,7 +35,7 @@ function Results(props: SearchProps) {
         const res = await searchData(context.search, +pageSize, page);
         const count = await getShowsCount(context.search);
 
-        if (!ignore) {
+        if (!ignore && res && count) {
           if (params.pageNumber) {
             setPage(+params.pageNumber - 1);
           }
