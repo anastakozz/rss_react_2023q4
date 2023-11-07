@@ -36,13 +36,9 @@ export default function Details() {
   }, [params]);
 
   return (
-    <div className="w-1/2 h-full p-4 relative">
-      <div
-        className="w-full h-full bg-black/50 absolute z-10 top-0 -left-full"
-        onClick={closeDetails}
-      ></div>
-      <div className="h-full bg-slate-700 overflow-scroll overscroll-contain">
-        <div className="flex justify-end pb-4">
+    <div className="h-full w-1/2 relative">
+      <div className="h-full">
+      <div className="absolute top-4 right-4">
           <Button text="Close" onClick={closeDetails}></Button>
         </div>
 
@@ -55,7 +51,7 @@ export default function Details() {
                 <>
                   <div className="object-contain ">
                     <img
-                      className=""
+                      className="rounded"
                       src={typeof data.image === 'string' ? data.image : ''}
                       alt="show poster"
                     />
@@ -83,6 +79,7 @@ export default function Details() {
             </>
           )}
         </article>
+        
       </div>
     </div>
   );

@@ -99,7 +99,6 @@ export async function getShowData(
     }
 
     const res = await response.json();
-    console.log(res.result);
     return res.result;
   } catch (error) {
     console.error(error);

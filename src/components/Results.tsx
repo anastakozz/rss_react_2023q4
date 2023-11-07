@@ -48,8 +48,8 @@ function Results(props: SearchProps) {
     }
 
     if (!params.pageNumber || +params.pageNumber < 1) {
-      navigate('/search/1');
-    } else {
+      navigate('search/1');
+    } else if (+params.pageNumber !== page + 1) {
       updateData();
     }
 
@@ -65,11 +65,11 @@ function Results(props: SearchProps) {
         <>{pagesCount ? <Pagination total={pagesCount} /> : <></>}</>
       </div>
 
-      <article className='overflow-scroll'>
+      <div>
         {isLoading ? (
-          <div className="text-white py-4">Loading...</div>
+          <div className="text-white py-4 ">Loading...</div>
         ) : (
-          <article className="text-white py-4">
+          <article className="text-white py-4 flex justify-center">
             {data && data.length !== 0 ? (
               <Cards data={data} />
             ) : (
@@ -77,7 +77,7 @@ function Results(props: SearchProps) {
             )}
           </article>
         )}
-      </article>
+      </div>
     </section>
   );
 }
