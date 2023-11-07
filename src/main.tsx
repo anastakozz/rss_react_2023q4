@@ -7,14 +7,18 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
+  Navigate,
 } from 'react-router-dom';
 import Details from './components/Details';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/:pageNumber" element={<App />}>
-      <Route path=":showId" element={<Details />} />
-    </Route>
+    <>
+      <Route path="/" element={<Navigate to="/1" />} />
+      <Route path="/:pageNumber" element={<App />}>
+        <Route path=":showId" element={<Details />} />
+      </Route>
+    </>
   )
 );
 

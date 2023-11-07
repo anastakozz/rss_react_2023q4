@@ -36,7 +36,7 @@ export default function Details() {
   }, [params]);
 
   return (
-    <div className="h-full w-1/2 relative">
+    <div className="h-full w-2/3 relative">
       <div className="h-full">
       <div className="absolute top-4 right-4">
           <Button text="Close" onClick={closeDetails}></Button>

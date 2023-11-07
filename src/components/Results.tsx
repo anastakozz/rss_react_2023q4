@@ -14,7 +14,7 @@ function Results(props: SearchProps) {
   const navigate = useNavigate();
 
   const [data, setData] = useState<Shows | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [pageSize, setPageSize] = useState(context.pageSize);
   const [pagesCount, setPagesCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -30,8 +30,8 @@ function Results(props: SearchProps) {
 
     async function updateData() {
       if (context.search !== null && pageSize) {
-        setData(null);
         setIsLoading(true);
+        setData(null);
         const res = await searchData(context.search, +pageSize, page);
         const count = await getShowsCount(context.search);
 
