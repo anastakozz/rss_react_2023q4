@@ -49,14 +49,14 @@ function Results(props: SearchProps) {
 
     if (!params.pageNumber || +params.pageNumber < 1) {
       navigate('/1');
-    } else if (+params.pageNumber !== page + 1) {
+    } else {
       updateData();
     }
 
     return () => {
       ignore = true;
     };
-  }, [context, pageSize, page, params, navigate]);
+  }, [context, pageSize, params.pageNumber, navigate, page]);
 
   return (
     <section>
