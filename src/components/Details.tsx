@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
 import { ShowsProps } from '../modules/interfaces';
 import { Button } from './components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getShowData } from '../services/api.service';
 
 export default function Details() {
   const params = useParams();
-  const navigate = useNavigate();
   const [data, setData] = useState<ShowsProps | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const closeDetails = () => {
-    navigate(`/${params.pageNumber}`);
-  };
 
   useEffect(() => {
     let ignore = false;
@@ -38,16 +33,16 @@ export default function Details() {
   return (
     <div className="h-full w-2/3 relative">
       <div className="h-full">
-      <div className="absolute top-4 right-4">
-          <Button text="Close" onClick={closeDetails}></Button>
-        </div>
+        <Link to={`/${params.pageNumber}`} className="absolute top-4 right-4">
+          <Button text="Close"></Button>
+        </Link>
 
         <article className="flex gap-4 flex-wrap text-white ">
           {isLoading ? (
             'loading... Please, wait'
           ) : (
             <>
-              {data ? (
+              {data && (
                 <>
                   <div className="object-contain ">
                     <img
@@ -73,13 +68,10 @@ export default function Details() {
                     </p>
                   </div>
                 </>
-              ) : (
-                <></>
               )}
             </>
           )}
         </article>
-        
       </div>
     </div>
   );

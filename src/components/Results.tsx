@@ -48,7 +48,7 @@ function Results(props: SearchProps) {
     }
 
     if (!params.pageNumber || +params.pageNumber < 1) {
-      navigate('/1');
+      navigate('/');
     } else {
       updateData();
     }
@@ -62,7 +62,7 @@ function Results(props: SearchProps) {
     <section>
       <div className="flex justify-between py-4">
         <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
-        <>{pagesCount ? <Pagination total={pagesCount} /> : <></>}</>
+        <>{pagesCount && <Pagination total={pagesCount} />}</>
       </div>
 
       <div>

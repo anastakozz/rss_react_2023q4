@@ -6,25 +6,22 @@ type ResultCardProps = {
 };
 
 export default function ResultsCard(props: ResultCardProps) {
-  const item = props.item;
+  const { id, titleOriginal, totalSeasons, rating } = props.item;
   const params = useParams();
 
   return (
-    <Link to={`/${params.pageNumber}/${item.id}`}>
-      <div
-        className="bg-slate-500 max-w-xs p-4 rounded h-full"
-        id={`${item.id}`}
-      >
+    <Link to={`/${params.pageNumber}/${id}`}>
+      <div className="bg-slate-500 max-w-xs p-4 rounded h-full" id={`${id}`}>
         <div className="underline my-1 hover:text-orange-300 transition">
-          <span className="font-bold">{item.titleOriginal}</span>
+          <span className="font-bold">{titleOriginal}</span>
         </div>
         <div>
           <span className="">Total seasons: </span>
-          <span className="font-bold">{item.totalSeasons}</span>
+          <span className="font-bold">{totalSeasons}</span>
         </div>
         <div>
           <span className="">Rating: </span>
-          <span className="font-bold">{item.rating}</span>
+          <span className="font-bold">{rating}</span>
         </div>
       </div>
     </Link>

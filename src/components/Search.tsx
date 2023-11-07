@@ -37,7 +37,6 @@ function Search(props: SearchProps): ReactNode {
 
   return (
     <section>
-      {' '}
       <>
         <div className="flex gap-4 py-4 justify-center">
           <Button
@@ -48,7 +47,7 @@ function Search(props: SearchProps): ReactNode {
           ></Button>
           <SearchInput
             updateState={updateState}
-            inputValue={newSearch ? newSearch : ''}
+            inputValue={newSearch || ''}
           ></SearchInput>
           <Button text="Search" onClick={handleClick}></Button>
         </div>

@@ -8,7 +8,7 @@ type CardsProps = {
 
 export default function Cards(props: CardsProps) {
   return (
-    <div className='flex gap-12 w-full justify-center'>
+    <div className="flex gap-12 w-full justify-center">
       <div className="h-min grid grid-cols-2 md:grid-cols-3 gap-4">
         {props.data.map((item, index) => {
           return (
