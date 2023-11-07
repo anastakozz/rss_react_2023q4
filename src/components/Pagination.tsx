@@ -12,10 +12,10 @@ export default function Pagination(props: paginationProps) {
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    navigate(`/search/${page + 1}`);
+    navigate(`/${page + 1}`);
   };
   const handlePrevClick = () => {
-    navigate(`/search/${page - 1}`);
+    navigate(`/${page - 1}`);
   };
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Pagination(props: paginationProps) {
       if (+params.pageNumber <= props.total) {
         setPage(+params.pageNumber);
       } else {
-        navigate('search/1');
+        navigate('/1');
       }
     }
   }, [page, params, navigate, props]);

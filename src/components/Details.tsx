@@ -11,7 +11,7 @@ export default function Details() {
   const [isLoading, setIsLoading] = useState(false);
 
   const closeDetails = () => {
-    navigate(`/search/${params.pageNumber}`);
+    navigate(`/${params.pageNumber}`);
   };
 
   useEffect(() => {

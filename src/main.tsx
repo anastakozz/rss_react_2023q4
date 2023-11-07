@@ -12,10 +12,8 @@ import Details from './components/Details';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route path="search/:pageNumber">
-        <Route path=":showId" element={<Details />} />
-      </Route>
+    <Route path="/:pageNumber" element={<App />}>
+      <Route path=":showId" element={<Details />} />
     </Route>
   )
 );

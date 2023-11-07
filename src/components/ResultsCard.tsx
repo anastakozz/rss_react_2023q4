@@ -10,7 +10,7 @@ export default function ResultsCard(props: ResultCardProps) {
   const params = useParams();
 
   return (
-    <Link to={`search/${params.pageNumber}/${item.id}`}>
+    <Link to={`/${params.pageNumber}/${item.id}`}>
       <div
         className="bg-slate-500 max-w-xs p-4 rounded h-full"
         id={`${item.id}`}
