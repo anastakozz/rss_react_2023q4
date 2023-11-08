@@ -3,6 +3,7 @@ import { ShowsProps } from '../modules/interfaces';
 import { Button } from './components';
 import { useParams, Link } from 'react-router-dom';
 import { getShowData } from '../services/api.service';
+import Loader from './Loader';
 
 export default function Details() {
   const params = useParams();
@@ -40,7 +41,7 @@ export default function Details() {
 
         <article className="flex gap-4 flex-wrap text-white ">
           {isLoading ? (
-            'loading... Please, wait'
+            <Loader />
           ) : (
             <>
               {data && (

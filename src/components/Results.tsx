@@ -6,6 +6,7 @@ import { PageSizeSwitch, Cards, Pagination } from './components';
 import { ContextProps } from '../modules/interfaces';
 import { useParams, useNavigate } from 'react-router-dom';
 import { firstPage } from '../modules/constant';
+import Loader from './Loader';
 
 type SearchProps = { updateContext: (newContext: ContextProps) => void };
 
@@ -61,12 +62,12 @@ function Results(props: SearchProps) {
     <section>
       <div className="flex justify-between py-4">
         <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
-        <>{pagesCount ? <Pagination total={pagesCount} /> : <></>}</>
+        {pagesCount ? <Pagination total={pagesCount} /> : <></>}
       </div>
 
       <div>
         {isLoading ? (
-          <div className="text-white py-4 ">Loading...</div>
+          <Loader/>
         ) : (
           <DataContext.Provider value={data}>
             <Cards />
