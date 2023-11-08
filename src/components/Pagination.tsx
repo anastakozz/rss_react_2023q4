@@ -1,6 +1,7 @@
 import { Button } from './components';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { firstPage } from '../modules/constant';
 
 type paginationProps = {
   total: number;
@@ -24,7 +25,7 @@ export default function Pagination(props: paginationProps) {
       if (+params.pageNumber <= props.total) {
         setPage(+params.pageNumber);
       } else {
-        navigate('/1');
+        navigate(firstPage);
       }
     }
   }, [page, params, navigate, props]);
