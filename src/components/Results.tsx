@@ -5,6 +5,7 @@ import { useContext, useState, useEffect } from 'react';
 import { PageSizeSwitch, Cards, Pagination } from './components';
 import { ContextProps } from '../modules/interfaces';
 import { useParams, useNavigate } from 'react-router-dom';
+import { firstPage } from '../modules/constant';
 
 type SearchProps = { updateContext: (newContext: ContextProps) => void };
 
@@ -22,7 +23,7 @@ function Results(props: SearchProps) {
   const updatePageSize = (value: string) => {
     setPageSize(value);
     props.updateContext({ ...context, pageSize: value });
-    navigate('/1');
+    navigate(firstPage);
   };
 
   useEffect(() => {
@@ -39,16 +40,15 @@ function Results(props: SearchProps) {
           if (params.pageNumber) {
             setPage(+params.pageNumber - 1);
           }
-          setData(res);
           setPagesCount(Math.ceil(count / +pageSize));
-
+          setData(res);
           setIsLoading(false);
         }
       }
     }
 
     if (!params.pageNumber || +params.pageNumber < 1) {
-      navigate('/');
+      navigate(firstPage);
     } else {
       updateData();
     }

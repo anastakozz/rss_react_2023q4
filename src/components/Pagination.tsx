@@ -11,11 +11,12 @@ export default function Pagination(props: paginationProps) {
   const params = useParams();
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
-    navigate(`/${page + 1}`);
-  };
-  const handlePrevClick = () => {
-    navigate(`/${page - 1}`);
+  const handleClick = (directionIsForward: boolean) => {
+    if (directionIsForward) {
+      navigate(`/${page + 1}`);
+    } else {
+      navigate(`/${page - 1}`);
+    }
   };
 
   useEffect(() => {
@@ -33,8 +34,10 @@ export default function Pagination(props: paginationProps) {
       <Button
         text={'Prev'}
         small={true}
-        disabled={!!(page === 1)}
-        onClick={handlePrevClick}
+        disabled={page === 1}
+        onClick={() => {
+          handleClick(false);
+        }}
       ></Button>
       <div className="py-2 rounded-full bg-white px-4">
         page {page} of {props.total}
@@ -42,8 +45,10 @@ export default function Pagination(props: paginationProps) {
       <Button
         text={'Next'}
         small={true}
-        onClick={handleNextClick}
-        disabled={!!(page === props.total)}
+        onClick={() => {
+          handleClick(true);
+        }}
+        disabled={page === props.total}
       ></Button>
     </div>
   );
