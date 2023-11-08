@@ -13,13 +13,14 @@ export default function Details() {
     let ignore = false;
 
     async function updateData() {
-      setData(null);
-      setIsLoading(true);
-      const res = await getShowData(params.showId);
-
-      if (!ignore && res) {
-        setData(res);
-        setIsLoading(false);
+      if (params.showId) {
+        setData(null);
+        setIsLoading(true);
+        const res = await getShowData(params.showId);
+        if (!ignore && res) {
+          setData(res);
+          setIsLoading(false);
+        }
       }
     }
 

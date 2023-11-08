@@ -3,104 +3,73 @@ import { Shows } from '../modules/types';
 
 const baseUrl = new URL('https://api.myshows.me/v2/rpc/');
 
+type apiParams = {
+  [key: string]: string | number | boolean | apiParams;
+};
+
+export async function getApiData(method: string, params: apiParams) {
+  try {
+    const response = await fetch(baseUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method,
+        params,
+        id: 1,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Ошибка при выполнении запроса');
+    }
+
+    const res = await response.json();
+    return res.result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function searchData(
   query: string,
   pageSize: number,
   page: number
 ): Promise<Shows | undefined> {
-  try {
-    const response = await fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'shows.Get',
-        params: {
-          search: {
-            query,
-          },
-          page,
-          pageSize,
-        },
-        id: 1,
-      }),
-    });
+  const method = 'shows.Get';
+  const params = {
+    search: {
+      query,
+    },
+    page,
+    pageSize,
+  };
 
-    if (!response.ok) {
-      throw new Error('Ошибка при выполнении запроса');
-    }
-
-    const res = await response.json();
-    return res.result;
-  } catch (error) {
-    console.error(error);
-  }
+  return await getApiData(method, params);
 }
 
 export async function getShowsCount(
   query: string
 ): Promise<number | undefined> {
-  try {
-    const response = await fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'shows.Count',
-        params: {
-          search: {
-            query,
-          },
-        },
-        id: 1,
-      }),
-    });
+  const method = 'shows.Count';
+  const params = {
+    search: {
+      query,
+    },
+  };
 
-    if (!response.ok) {
-      throw new Error('Ошибка при выполнении запроса');
-    }
-
-    const res = await response.json();
-    return res.result;
-  } catch (error) {
-    console.error(error);
-  }
+  return await getApiData(method, params);
 }
 
-export async function getShowData(
-  id: string | undefined
-): Promise<ShowsProps | undefined> {
-  try {
-    const response = await fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'shows.GetById',
-        params: {
-          showId: id,
-          withEpisodes: true,
-        },
-        id: 1,
-      }),
-    });
+export async function getShowData(id: string): Promise<ShowsProps | undefined> {
+  const method = 'shows.GetById';
+  const params = {
+    showId: id,
+    withEpisodes: true,
+  };
 
-    if (!response.ok) {
-      throw new Error('Ошибка при выполнении запроса');
-    }
-
-    const res = await response.json();
-    return res.result;
-  } catch (error) {
-    console.error(error);
-  }
+  return await getApiData(method, params);
 }
