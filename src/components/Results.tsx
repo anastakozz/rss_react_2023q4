@@ -1,4 +1,4 @@
-import { SearchContext } from '../modules/context';
+import { SearchContext, DataContext } from '../modules/context';
 import { getShowsCount, searchData } from '../services/api.service';
 import { Shows } from '../modules/types';
 import { useContext, useState, useEffect } from 'react';
@@ -11,6 +11,7 @@ type SearchProps = { updateContext: (newContext: ContextProps) => void };
 
 function Results(props: SearchProps) {
   const context = useContext(SearchContext);
+
   const params = useParams();
   const navigate = useNavigate();
 
@@ -27,14 +28,15 @@ function Results(props: SearchProps) {
   };
 
   useEffect(() => {
+    const { search } = context;
     let ignore = false;
 
     async function updateData() {
-      if (context.search !== null && pageSize) {
+      if (search !== null && pageSize) {
         setIsLoading(true);
         setData(null);
-        const res = await searchData(context.search, +pageSize, page);
-        const count = await getShowsCount(context.search);
+        const res = await searchData(search, +pageSize, page);
+        const count = await getShowsCount(search);
 
         if (!ignore && res && count) {
           if (params.pageNumber) {
@@ -56,26 +58,22 @@ function Results(props: SearchProps) {
     return () => {
       ignore = true;
     };
-  }, [context, pageSize, params.pageNumber, navigate, page]);
+  }, [context, pageSize, params.pageNumber, navigate, page, props]);
 
   return (
     <section>
       <div className="flex justify-between py-4">
         <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
-        <>{pagesCount && <Pagination total={pagesCount} />}</>
+        <>{pagesCount ? <Pagination total={pagesCount} /> : <></>}</>
       </div>
 
       <div>
         {isLoading ? (
           <div className="text-white py-4 ">Loading...</div>
         ) : (
-          <article className="text-white py-4 flex justify-center">
-            {data && data.length !== 0 ? (
-              <Cards data={data} />
-            ) : (
-              'nothing to show'
-            )}
-          </article>
+          <DataContext.Provider value={data}>
+            <Cards />
+          </DataContext.Provider>
         )}
       </div>
     </section>

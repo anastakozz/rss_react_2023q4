@@ -8,7 +8,6 @@ export interface ButtonProps {
 export interface ContextProps {
   search: string | null;
   pageSize: string | null;
-  updateContext?: (newContext: ContextProps) => void;
 }
 
 export interface ShowsProps {

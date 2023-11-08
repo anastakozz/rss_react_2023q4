@@ -1,1 +1,1 @@
-export const firstPage = '/1'
+export const firstPage = '/1';
