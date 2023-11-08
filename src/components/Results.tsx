@@ -19,7 +19,6 @@ function Results(props: SearchProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [pageSize, setPageSize] = useState(context.pageSize);
   const [pagesCount, setPagesCount] = useState(0);
-  const [page, setPage] = useState(0);
 
   const updatePageSize = (value: string) => {
     setPageSize(value);
@@ -31,7 +30,7 @@ function Results(props: SearchProps) {
     const { search } = context;
     let ignore = false;
 
-    async function updateData() {
+    async function updateData(page: number) {
       if (search !== null && pageSize) {
         setIsLoading(true);
         setData(null);
@@ -39,9 +38,6 @@ function Results(props: SearchProps) {
         const count = await getShowsCount(search);
 
         if (!ignore && res && count) {
-          if (params.pageNumber) {
-            setPage(+params.pageNumber - 1);
-          }
           setPagesCount(Math.ceil(count / +pageSize));
           setData(res);
           setIsLoading(false);
@@ -49,16 +45,17 @@ function Results(props: SearchProps) {
       }
     }
 
-    if (!params.pageNumber || +params.pageNumber < 1) {
+    const page = params.pageNumber;
+    if (!page || +page < 1) {
       navigate(firstPage);
     } else {
-      updateData();
+      updateData(+page - 1);
     }
 
     return () => {
       ignore = true;
     };
-  }, [context, pageSize, params.pageNumber, navigate, page, props]);
+  }, [context, pageSize, params.pageNumber, navigate]);
 
   return (
     <section>
