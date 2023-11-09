@@ -12,12 +12,8 @@ export default function Pagination(props: paginationProps) {
   const params = useParams();
   const navigate = useNavigate();
 
-  const handleClick = (directionIsForward: boolean) => {
-    if (directionIsForward) {
-      navigate(`/${page + 1}`);
-    } else {
-      navigate(`/${page - 1}`);
-    }
+  const handleClick = (url: string) => {
+    navigate(url);
   };
 
   useEffect(() => {
@@ -37,7 +33,7 @@ export default function Pagination(props: paginationProps) {
         small={true}
         disabled={page === 1}
         onClick={() => {
-          handleClick(false);
+          handleClick(`/${page - 1}`);
         }}
       ></Button>
       <div className="py-2 rounded-full bg-white px-4">
@@ -47,7 +43,7 @@ export default function Pagination(props: paginationProps) {
         text={'Next'}
         small={true}
         onClick={() => {
-          handleClick(true);
+          handleClick(`/${page + 1}`);
         }}
         disabled={page === props.total}
       ></Button>

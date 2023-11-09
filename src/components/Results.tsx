@@ -19,7 +19,7 @@ function Results(props: SearchProps) {
   const [data, setData] = useState<Shows | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [pageSize, setPageSize] = useState(context.pageSize);
-  const [pagesCount, setPagesCount] = useState(0);
+  const [pagesCount, setPagesCount] = useState<number>();
 
   const updatePageSize = (value: string) => {
     setPageSize(value);
@@ -62,12 +62,12 @@ function Results(props: SearchProps) {
     <section>
       <div className="flex justify-between py-4">
         <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
-        {pagesCount ? <Pagination total={pagesCount} /> : <></>}
+        {pagesCount && <Pagination total={pagesCount} />}
       </div>
 
       <div>
         {isLoading ? (
-          <Loader/>
+          <Loader />
         ) : (
           <DataContext.Provider value={data}>
             <Cards />
