@@ -10,8 +10,8 @@ export default function ResultsCard(props: ResultCardProps) {
   const params = useParams();
 
   return (
-    <Link to={`/${params.pageNumber}/${id}`}>
-      <div className="bg-slate-500 max-w-xs p-4 rounded h-full" id={`${id}`}>
+    <Link role='card' to={`/${params.pageNumber}/${id}`}>
+      <div role='card-id' className="bg-slate-500 max-w-xs p-4 rounded h-full" id={`${id}`}>
         <div className="underline my-1 hover:text-orange-300 transition">
           <span className="font-bold">{titleOriginal}</span>
         </div>

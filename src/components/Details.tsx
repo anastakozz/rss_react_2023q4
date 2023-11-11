@@ -33,7 +33,7 @@ export default function Details() {
   }, [params]);
 
   return (
-    <div className="h-full w-2/3 relative">
+    <div className="h-full w-2/3 relative" role='details'>
       <div className="h-full">
         <Link to={`/${params.pageNumber}`} className="absolute top-4 right-4">
           <Button text="Close"></Button>
