@@ -4,11 +4,10 @@ import { expect, test, vi } from 'vitest';
 import {
   BrowserRouter,
   createMemoryRouter,
-  RouterProvider, Outlet
+  RouterProvider,
 } from 'react-router-dom';
-import { mockCard } from './mockData';
+import { mockCard, routesConfig } from './mockData';
 import { act } from 'react-dom/test-utils';
-import Details from '../components/Details';
 
 vi.mock('react-router-dom', async () => {
   const mod: { [key: string]: unknown } =
@@ -20,19 +19,6 @@ vi.mock('react-router-dom', async () => {
     }),
   };
 });
-
-const routesConfig = [
-  {
-    path: '/1',
-    element: (
-      <>
-        <ResultsCard item={mockCard} />
-        <Outlet />
-      </>
-    ),
-    children: [{ path: '/1/:showId', element: <Details /> }],
-  },
-];
 
 test('renders proper data', () => {
   render(
@@ -55,5 +41,5 @@ test('shows details component on click', () => {
     fireEvent.click(link);
   });
   const details = screen.getByRole('details');
-  expect(details).toBeDefined()
+  expect(details).toBeDefined();
 });
