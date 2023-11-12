@@ -20,10 +20,11 @@ test('switch calls updateData function on click', () => {
 });
 
 test('switch changes input value', () => {
+  const testValue = '20'
   render(<PageSizeSwitch updateData={mockUpdate}></PageSizeSwitch>);
   const input = screen.getByRole('page-size-input') as HTMLInputElement;
   act(() => {
-    fireEvent.change(input, { target: { value: '20' } });
+    fireEvent.change(input, { target: { value: testValue } });
   });
-  expect(input.value).toEqual('20');
+  expect(input.value).toEqual(testValue);
 });

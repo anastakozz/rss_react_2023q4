@@ -19,12 +19,16 @@ const localStorageMock: Storage = {
   length: 0,
 };
 
-test('renders Search component', () => {
-  render(
+const MockSearch = () => {
+  return (
     <BrowserRouter>
       <Search updateContext={mockUpdateContext} />
     </BrowserRouter>
   );
+};
+
+test('renders Search component', () => {
+  render(<MockSearch />);
   const search = screen.getByRole('search');
   expect(search).toBeDefined();
 });
@@ -32,11 +36,8 @@ test('renders Search component', () => {
 test('saves new value to local storage onclick', () => {
   global.localStorage = localStorageMock;
 
-  render(
-    <BrowserRouter>
-      <Search updateContext={mockUpdateContext} />
-    </BrowserRouter>
-  );
+  render(<MockSearch />);
+
   const input = screen.getByRole('search-input');
   const button = screen.getByText('Search');
   fireEvent.change(input, { target: { value: 'test search' } });
@@ -63,11 +64,8 @@ test('gets a value from local storage when rendered', () => {
 });
 
 test('throws on click on Error button', () => {
-  render(
-    <BrowserRouter>
-      <Search updateContext={mockUpdateContext} />
-    </BrowserRouter>
-  );
+  render(<MockSearch />);
+
   const errorButton = screen.getByText('Error');
   try {
     fireEvent.click(errorButton);

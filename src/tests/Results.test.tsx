@@ -16,22 +16,22 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-test('renders Results component', () => {
-  render(
+const MockResults = () => {
+  return (
     <BrowserRouter>
       <Results updateContext={mockUpdateContext} />
     </BrowserRouter>
   );
+};
+
+test('renders Results component', () => {
+  render(<MockResults />);
   const results = screen.getAllByRole('results');
   expect(results).toBeDefined();
 });
 
 test('updates context on click', () => {
-  render(
-    <BrowserRouter>
-      <Results updateContext={mockUpdateContext} />
-    </BrowserRouter>
-  );
+  render(<MockResults />);
   const input = screen.getByRole('page-size-input') as HTMLInputElement;
   fireEvent.change(input, { target: { value: '20' } });
 

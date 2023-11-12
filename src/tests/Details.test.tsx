@@ -6,9 +6,10 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
-import { routesConfig } from './mockData';
+import { routesConfig, mockedDetailsData } from './mockData';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { getShowData } from '../services/api.service';
+const detailsUrl = '/1/1';
 
 vi.mock('react-router-dom', async () => {
   const mod: { [key: string]: unknown } =
@@ -34,7 +35,7 @@ vi.mock('../services/api.service', async () => {
 
 test('hides details component on click', () => {
   const router = createMemoryRouter(routesConfig, {
-    initialEntries: ['/1/1'],
+    initialEntries: [detailsUrl],
   });
   render(<RouterProvider router={router} />);
 
@@ -48,7 +49,7 @@ test('hides details component on click', () => {
 
 test('displays loader while fetching data', async () => {
   const router = createMemoryRouter(routesConfig, {
-    initialEntries: ['/1/1'],
+    initialEntries: [detailsUrl],
   });
   render(<RouterProvider router={router} />);
   const loader = screen.getByRole('loader');
@@ -56,16 +57,10 @@ test('displays loader while fetching data', async () => {
 });
 
 test('displays data correctly', async () => {
-  vi.mocked(getShowData).mockResolvedValue({
-    titleOriginal: 'Mocked Title',
-    country: 'Mocked Country',
-    started: 'Mocked Start Date',
-    description: 'Mocked Description',
-    image: 'Mocked Image URL',
-  });
+  vi.mocked(getShowData).mockResolvedValue(mockedDetailsData);
 
   const router = createMemoryRouter(routesConfig, {
-    initialEntries: ['/1/1'],
+    initialEntries: [detailsUrl],
   });
   render(<RouterProvider router={router} />);
 

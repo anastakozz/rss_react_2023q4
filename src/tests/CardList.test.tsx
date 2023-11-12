@@ -5,9 +5,9 @@ import { DataContext } from '../modules/context';
 import { mockCard } from './mockData';
 import { BrowserRouter } from 'react-router-dom';
 
-const mockData = new Array(5).fill(mockCard);
-
 test('shows correct number of cards', () => {
+  const testCardNumber = 5;
+  const mockData = new Array(testCardNumber).fill(mockCard);
   render(
     <BrowserRouter>
       <DataContext.Provider value={mockData}>
@@ -17,7 +17,7 @@ test('shows correct number of cards', () => {
   );
 
   const cardsNumber = screen.getAllByRole('card');
-  expect(cardsNumber).toHaveLength(5);
+  expect(cardsNumber).toHaveLength(testCardNumber);
 });
 
 test('shows a message about data absence', () => {
