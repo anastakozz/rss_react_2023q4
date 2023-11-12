@@ -1,8 +1,14 @@
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  act,
+  waitFor,
+} from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
 import { routesConfig } from './mockData';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-// import { getShowData } from '../services/api.service';
+import { getShowData } from '../services/api.service';
 
 vi.mock('react-router-dom', async () => {
   const mod: { [key: string]: unknown } =
@@ -49,19 +55,23 @@ test('displays loader while fetching data', async () => {
   expect(loader).toBeDefined();
 });
 
-// test('displays data correctly', async () => {
-//   vi.mocked(getShowData).mockResolvedValue({
-//     titleOriginal: 'Mocked Title',
-//     country: 'Mocked Country',
-//     started: 'Mocked Start Date',
-//     description: 'Mocked Description',
-//     image: 'Mocked Image URL',
-//   });
+test('displays data correctly', async () => {
+  vi.mocked(getShowData).mockResolvedValue({
+    titleOriginal: 'Mocked Title',
+    country: 'Mocked Country',
+    started: 'Mocked Start Date',
+    description: 'Mocked Description',
+    image: 'Mocked Image URL',
+  });
 
-//   const router = createMemoryRouter(routesConfig, {
-//     initialEntries: ['/1/1'],
-//   });
-//   render(<RouterProvider router={router} />);
-//   const title = screen.getByRole('details-title');
-//   expect(title).toBeDefined();
-// });
+  const router = createMemoryRouter(routesConfig, {
+    initialEntries: ['/1/1'],
+  });
+  render(<RouterProvider router={router} />);
+
+  await waitFor(() => {
+    expect(screen.getByRole('details-title')).toBeDefined();
+    expect(screen.getByText('Mocked Country')).toBeDefined();
+    expect(screen.getByText('Mocked Start Date')).toBeDefined();
+  });
+});
