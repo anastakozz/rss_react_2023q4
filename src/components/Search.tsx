@@ -2,6 +2,7 @@ import { SearchContext } from '../modules/context';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Button, SearchInput } from './components';
 import { ContextProps } from '../modules/interfaces';
+import { searchKey } from '../modules/constant';
 
 type SearchProps = { updateContext: (newContext: ContextProps) => void };
 
@@ -17,7 +18,7 @@ function Search(props: SearchProps): ReactNode {
   const handleClick = () => {
     if (newSearch !== null) {
       const newSearchTrimmed = newSearch.trim();
-      localStorage.setItem('previousSearch', newSearchTrimmed);
+      localStorage.setItem(searchKey, newSearchTrimmed);
       props.updateContext({
         ...context,
         search: newSearchTrimmed,
@@ -36,7 +37,7 @@ function Search(props: SearchProps): ReactNode {
   }, [hasError]);
 
   return (
-    <section role='search'>
+    <section role="search">
       <>
         <div className="flex gap-4 py-4 justify-center">
           <Button

@@ -1,13 +1,15 @@
 import { createContext } from 'react';
 import { ContextProps } from './interfaces';
 import { Shows } from './types';
-const previousSearch = localStorage.getItem('previousSearch')
-  ? localStorage.getItem('previousSearch')
+import { searchKey, basicPageSize } from './constant';
+
+const previousSearch = localStorage.getItem(searchKey)
+  ? localStorage.getItem(searchKey)
   : '';
 
 export const defaultContext: ContextProps = {
   search: previousSearch,
-  pageSize: '12',
+  pageSize: basicPageSize,
 };
 
 export const SearchContext = createContext(defaultContext);

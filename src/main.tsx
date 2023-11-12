@@ -21,7 +21,11 @@ const router = createBrowserRouter(
         element={<Navigate to={firstPage} />}
         errorElement={<MyErrorElement />}
       />
-      <Route path="/:pageNumber" element={<App />}>
+      <Route
+        path="/:pageNumber"
+        element={<App />}
+        errorElement={<MyErrorElement />}
+      >
         <Route path=":showId" element={<Details />} />
       </Route>
     </>
