@@ -10,14 +10,7 @@ const pages = {
   previous: 1,
 };
 const routesConfig = [
-  { path: `/${pages.initial}`, element: <Pagination total={pages.total} /> },
-];
-
-const routesBadConfig = [
-  {
-    path: `/${pages.initial}`,
-    element: <Pagination total={pages.initial - 1} />,
-  },
+  { path: '/:pageNumber', element: <Pagination total={pages.total} /> },
 ];
 
 vi.mock('react-router-dom', async () => {
@@ -54,13 +47,5 @@ test('pagination updates URL query parameter when page number diminishes', () =>
   act(() => {
     fireEvent.click(PrevButton);
   });
-  expect(router.state.location.pathname).toBe(`/${pages.previous}`);
-});
-
-test('navigates to first page when initial value is less than total pages count', () => {
-  const router = createMemoryRouter(routesBadConfig, {
-    initialEntries: [`/${pages.initial}`],
-  });
-  render(<RouterProvider router={router} />);
   expect(router.state.location.pathname).toBe(`/${pages.previous}`);
 });

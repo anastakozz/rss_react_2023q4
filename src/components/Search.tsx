@@ -36,7 +36,7 @@ function Search(props: SearchProps): ReactNode {
   }, [hasError]);
 
   return (
-    <section>
+    <section role='search'>
       <>
         <div className="flex gap-4 py-4 justify-center">
           <Button

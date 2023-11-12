@@ -23,6 +23,7 @@ export default function PageSizeSwitch(props: Props) {
   return (
     <div className="bg-white rounded-full max-w-fit">
       <input
+        role="page-size-input"
         className="py-2 px-4 rounded-full focus:outline-none"
         type="number"
         min="1"

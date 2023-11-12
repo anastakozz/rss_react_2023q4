@@ -43,3 +43,4 @@ test('shows details component on click', () => {
   const details = screen.getByRole('details');
   expect(details).toBeDefined();
 });
+

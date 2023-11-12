@@ -59,7 +59,7 @@ function Results(props: SearchProps) {
   }, [context, pageSize, params.pageNumber, navigate]);
 
   return (
-    <section>
+    <section role='results'>
       <div className="flex justify-between py-4">
         <PageSizeSwitch updateData={updatePageSize}></PageSizeSwitch>
         {pagesCount && <Pagination total={pagesCount} />}

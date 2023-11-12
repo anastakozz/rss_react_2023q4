@@ -11,11 +11,16 @@ import {
 } from 'react-router-dom';
 import Details from './components/Details';
 import { firstPage } from './modules/constant';
+import MyErrorElement from './components/404page';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Navigate to={firstPage} />} />
+      <Route
+        path="/"
+        element={<Navigate to={firstPage} />}
+        errorElement={<MyErrorElement />}
+      />
       <Route path="/:pageNumber" element={<App />}>
         <Route path=":showId" element={<Details />} />
       </Route>

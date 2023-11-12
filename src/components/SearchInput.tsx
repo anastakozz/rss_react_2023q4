@@ -12,6 +12,7 @@ export default function SearchInput(props: SearchInputProps) {
 
   return (
     <input
+      role="search-input"
       className="rounded-full px-4 py-2"
       placeholder="input name to search"
       value={props.inputValue}
