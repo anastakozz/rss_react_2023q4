@@ -5,11 +5,6 @@ export interface ButtonProps {
   disabled?: boolean;
 }
 
-export interface ContextProps {
-  search: string | null;
-  pageSize: string | null;
-}
-
 export interface ShowsProps {
   [key: string]: string | string[] | number;
 }

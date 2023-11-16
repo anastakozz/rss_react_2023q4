@@ -1,28 +1,24 @@
-import { SearchContext } from '../modules/context';
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Button, SearchInput } from './components';
-import { ContextProps } from '../modules/interfaces';
 import { searchKey } from '../modules/constant';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { updateSearch } from '../store/searchSlice';
 
-type SearchProps = { updateContext: (newContext: ContextProps) => void };
-
-function Search(props: SearchProps): ReactNode {
-  const context = useContext(SearchContext);
+function Search(): ReactNode {
+  const savedSearch = useAppSelector((state) => state.search.search);
+  const dispatch = useAppDispatch();
   const [hasError, setHasError] = useState(false);
-  const [newSearch, setNewSearch] = useState(context.search);
+  const [newSearch, setNewSearch] = useState(savedSearch);
 
-  function updateState(value: string) {
+  const updateState = (value: string) => {
     setNewSearch(value);
-  }
+  };
 
   const handleClick = () => {
     if (newSearch !== null) {
       const newSearchTrimmed = newSearch.trim();
       localStorage.setItem(searchKey, newSearchTrimmed);
-      props.updateContext({
-        ...context,
-        search: newSearchTrimmed,
-      });
+      dispatch(updateSearch(newSearchTrimmed));
     }
   };
 

@@ -1,14 +1,15 @@
-import { SearchContext } from '../modules/context';
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { updatePageSize } from '../store/pageSizeSlice';
 import Button from './Button';
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { firstPage } from '../modules/constant';
 
-type Props = {
-  updateData: (value: string) => void;
-};
-
-export default function PageSizeSwitch(props: Props) {
-  const context = useContext(SearchContext);
-  const [value, setValue] = useState(context.pageSize);
+export default function PageSizeSwitch() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const pageSize = useAppSelector((state) => state.pageSize.pageSize);
+  const [value, setValue] = useState(pageSize);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -16,7 +17,8 @@ export default function PageSizeSwitch(props: Props) {
 
   const handleClick = () => {
     if (value) {
-      props.updateData(value);
+      dispatch(updatePageSize(value));
+      navigate(firstPage);
     }
   };
 
