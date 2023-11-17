@@ -1,38 +1,47 @@
-import { DataContext } from '../modules/context';
-import { getShowsCount, searchData } from '../services/api.service';
-import { Shows } from '../modules/types';
+import { getShowsCount } from '../services/api.service';
 import { useState, useEffect } from 'react';
 import { PageSizeSwitch, Cards, Pagination } from './components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { firstPage } from '../modules/constant';
 import Loader from './Loader';
 import { useAppSelector } from '../hooks';
+import { useGetApiDataQuery } from '../store/api';
+import { Shows } from '../modules/types';
 
 function Results() {
   const params = useParams();
   const navigate = useNavigate();
-
-  const [data, setData] = useState<Shows | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [pagesCount, setPagesCount] = useState<number>();
+  let dataToShow: Shows | undefined = undefined;
 
   const pageSize = useAppSelector((state) => state.pageSize.pageSize);
   const search = useAppSelector((state) => state.search.search);
 
+  const { data, isLoading } = useGetApiDataQuery({
+    method: 'shows.Get',
+    params: {
+      search: {
+        search,
+      },
+      page: params.pageNumber as string,
+      pageSize,
+    },
+  });
+
+  if(data){
+    dataToShow = data.result as Shows
+  }
+
+  const [pagesCount, setPagesCount] = useState<number>();
+
   useEffect(() => {
     let ignore = false;
 
-    async function updateData(page: number) {
+    async function updatePagesCount() {
       if (search !== null && pageSize) {
-        setIsLoading(true);
-        setData(null);
-        const res = await searchData(search, +pageSize, page);
         const count = await getShowsCount(search);
 
-        if (!ignore && res && count) {
+        if (!ignore && count) {
           setPagesCount(Math.ceil(count / +pageSize));
-          setData(res);
-          setIsLoading(false);
         }
       }
     }
@@ -41,7 +50,7 @@ function Results() {
     if (!page || +page < 1) {
       navigate(firstPage);
     } else {
-      updateData(+page - 1);
+      updatePagesCount();
     }
 
     return () => {
@@ -56,15 +65,7 @@ function Results() {
         {pagesCount && <Pagination total={pagesCount} />}
       </div>
 
-      <div>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <DataContext.Provider value={data}>
-            <Cards />
-          </DataContext.Provider>
-        )}
-      </div>
+      <div>{isLoading ? <Loader /> : dataToShow && <Cards data={dataToShow} />}</div>
     </section>
   );
 }

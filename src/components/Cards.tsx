@@ -1,10 +1,13 @@
 import { ResultsCard } from './components';
 import { Outlet } from 'react-router-dom';
-import { useContext } from 'react';
-import { DataContext } from '../modules/context';
+import { Shows } from '../modules/types';
 
-export default function Cards() {
-  const data = useContext(DataContext);
+type CardsProps = {
+  data: Shows;
+};
+
+export default function Cards(props: CardsProps) {
+  const { data } = props;
   return (
     <>
       {data && data.length !== 0 ? (

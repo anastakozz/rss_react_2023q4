@@ -1,4 +1,3 @@
-import { ShowsProps } from '../modules/interfaces';
 import { Shows } from '../modules/types';
 
 const baseUrl = new URL('https://api.myshows.me/v2/rpc/');
@@ -64,12 +63,3 @@ export async function getShowsCount(
   return await getApiData(method, params);
 }
 
-export async function getShowData(id: string): Promise<ShowsProps | undefined> {
-  const method = 'shows.GetById';
-  const params = {
-    showId: id,
-    withEpisodes: true,
-  };
-
-  return await getApiData(method, params);
-}

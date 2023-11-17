@@ -1,40 +1,28 @@
-import { useEffect, useState } from 'react';
-import { ShowsProps } from '../modules/interfaces';
 import { Button } from './components';
 import { useParams, Link } from 'react-router-dom';
-import { getShowData } from '../services/api.service';
 import Loader from './Loader';
+import { useGetApiDataQuery } from '../store/api';
+import { ShowsProps } from '../modules/interfaces';
 
 export default function Details() {
   const params = useParams();
-  const [data, setData] = useState<ShowsProps | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  let dataToShow: ShowsProps | undefined = undefined;
 
-  useEffect(() => {
-    let ignore = false;
+  const { data, isLoading } = useGetApiDataQuery({
+    method: 'shows.GetById',
+    params: {
+      showId: params.showId as string,
+      withEpisodes: true,
+    },
+  });
 
-    async function updateData() {
-      if (params.showId) {
-        setData(null);
-        setIsLoading(true);
-        const res = await getShowData(params.showId);
-        if (!ignore && res) {
-          setData(res);
-          setIsLoading(false);
-        }
-      }
-    }
-
-    updateData();
-
-    return () => {
-      ignore = true;
-    };
-  }, [params]);
+  if(data){
+    dataToShow = data.result as ShowsProps
+  }
 
   return (
     <div className="h-full w-2/3 relative" role="details">
-      <div className="h-full">
+      <div className="h-full pb-8">
         <Link to={`/${params.pageNumber}`} className="absolute top-4 right-4">
           <Button text="Close"></Button>
         </Link>
@@ -44,29 +32,38 @@ export default function Details() {
             <Loader />
           ) : (
             <>
-              {data && (
+              {dataToShow && (
                 <>
                   <div className="object-contain ">
                     <img
                       className="rounded"
-                      src={typeof data.image === 'string' ? data.image : ''}
+                      src={
+                        typeof dataToShow.image === 'string'
+                          ? dataToShow.image
+                          : ''
+                      }
                       alt="show poster"
                     />
                   </div>
                   <div>
-                    <div role='details-title' className="text-bold text-4xl pb-4">
-                      {data.titleOriginal}
+                    <div
+                      role="details-title"
+                      className="text-bold text-4xl pb-4"
+                    >
+                      {dataToShow.titleOriginal}
                     </div>
                     <div>
                       <span className="text-bold">Country: </span>
-                      <span>{data.country}</span>
+                      <span>{dataToShow.country}</span>
                     </div>
                     <div>
                       <span className="text-bold">Started: </span>
-                      <span>{data.started}</span>
+                      <span>{dataToShow.started}</span>
                     </div>
                     <p className="pt-4">
-                      {data.description.toString().replace(/<[^>]+>/g, '')}
+                      {dataToShow.description
+                        .toString()
+                        .replace(/<[^>]+>/g, '')}
                     </p>
                   </div>
                 </>
