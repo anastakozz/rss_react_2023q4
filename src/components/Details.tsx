@@ -1,14 +1,12 @@
 import { Button } from './components';
 import { useParams, Link } from 'react-router-dom';
 import Loader from './Loader';
-import { useGetApiDataQuery } from '../store/api';
-import { ShowsProps } from '../modules/interfaces';
+import { useGetShowDataQuery } from '../store/api';
 
 export default function Details() {
   const params = useParams();
-  let dataToShow: ShowsProps | undefined = undefined;
 
-  const { data, isLoading } = useGetApiDataQuery({
+  const { data, isLoading } = useGetShowDataQuery({
     method: 'shows.GetById',
     params: {
       showId: params.showId as string,
@@ -16,9 +14,7 @@ export default function Details() {
     },
   });
 
-  if(data){
-    dataToShow = data.result as ShowsProps
-  }
+  const dataToShow = data?.result;
 
   return (
     <div className="h-full w-2/3 relative" role="details">

@@ -2,51 +2,68 @@ import { Button } from './components';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { firstPage } from '../modules/constant';
+import { useAppSelector } from '../hooks';
+import { useGetShowsNumberQuery } from '../store/api';
 
-type paginationProps = {
-  total: number;
-};
+export default function Pagination() {
+  const search = useAppSelector((state) => state.search.search);
+  const pageSize = useAppSelector((state) => state.pageSize.pageSize);
 
-export default function Pagination(props: paginationProps) {
-  const [page, setPage] = useState(1);
   const params = useParams();
   const navigate = useNavigate();
+
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState<number>();
+
+  const { data, isLoading } = useGetShowsNumberQuery({
+    method: 'shows.Count',
+    params: {
+      search: {
+        query: search,
+      },
+    },
+  });
 
   const handleClick = (url: string) => {
     navigate(url);
   };
 
   useEffect(() => {
-    if (params.pageNumber) {
-      if (+params.pageNumber <= props.total) {
-        setPage(+params.pageNumber);
-      } else {
-        navigate(firstPage);
+    if (data) {
+      setTotal(Math.ceil(data.result / +pageSize));
+      if (params.pageNumber && total) {
+        if (+params.pageNumber <= total) {
+          setPage(+params.pageNumber);
+        } else {
+          navigate(firstPage);
+        }
       }
     }
-  }, [page, params, navigate, props]);
+  }, [params, navigate, data, pageSize, total]);
 
   return (
-    <div className="flex gap-4">
-      <Button
-        text={'Prev'}
-        small={true}
-        disabled={page === 1}
-        onClick={() => {
-          handleClick(`/${page - 1}`);
-        }}
-      ></Button>
-      <div className="py-2 rounded-full bg-white px-4">
-        page {page} of {props.total}
+    !isLoading && (
+      <div className="flex gap-4">
+        <Button
+          text={'Prev'}
+          small={true}
+          disabled={page === 1}
+          onClick={() => {
+            handleClick(`/${page - 1}`);
+          }}
+        ></Button>
+        <div className="py-2 rounded-full bg-white px-4">
+          page {page} of {total}
+        </div>
+        <Button
+          text={'Next'}
+          small={true}
+          onClick={() => {
+            handleClick(`/${page + 1}`);
+          }}
+          disabled={page === total}
+        ></Button>
       </div>
-      <Button
-        text={'Next'}
-        small={true}
-        onClick={() => {
-          handleClick(`/${page + 1}`);
-        }}
-        disabled={page === props.total}
-      ></Button>
-    </div>
+    )
   );
 }

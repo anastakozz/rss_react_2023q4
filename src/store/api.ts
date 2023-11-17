@@ -8,34 +8,72 @@ type apiParams = {
   [key: string]: string | number | boolean | apiParams;
 };
 
-interface ApiResponse {
-  result: Shows | ShowsProps | number;
+interface ApiResponse<T> {
+  result: T;
 }
+
+const settings = {
+  url: '/',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+};
+
+const body = {
+  jsonrpc: '2.0',
+  id: 1,
+};
 
 export const showsApi = createApi({
   reducerPath: 'showsApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
-    getApiData: builder.query<
-      ApiResponse,
+    getShowData: builder.query<
+      ApiResponse<ShowsProps>,
       { method: string; params: apiParams }
     >({
       query: ({ method, params }) => ({
-        url: '/',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
+        ...settings,
         body: {
-          jsonrpc: '2.0',
+          ...body,
           method,
           params,
-          id: 1,
+        },
+      }),
+    }),
+    getShowsList: builder.query<
+      ApiResponse<Shows>,
+      { method: string; params: apiParams }
+    >({
+      query: ({ method, params }) => ({
+        ...settings,
+        body: {
+          ...body,
+          method,
+          params,
+        },
+      }),
+    }),
+    getShowsNumber: builder.query<
+      ApiResponse<number>,
+      { method: string; params: apiParams }
+    >({
+      query: ({ method, params }) => ({
+        ...settings,
+        body: {
+          ...body,
+          method,
+          params,
         },
       }),
     }),
   }),
 });
 
-export const { useGetApiDataQuery } = showsApi;
+export const {
+  useGetShowDataQuery,
+  useGetShowsListQuery,
+  useGetShowsNumberQuery,
+} = showsApi;

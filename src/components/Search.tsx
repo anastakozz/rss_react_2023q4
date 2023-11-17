@@ -1,10 +1,12 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Button, SearchInput } from './components';
-import { searchKey } from '../modules/constant';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { updateSearch } from '../store/searchSlice';
+import { useNavigate } from 'react-router-dom';
+import { firstPage } from '../modules/constant';
 
 function Search(): ReactNode {
+  const navigate = useNavigate();
   const savedSearch = useAppSelector((state) => state.search.search);
   const dispatch = useAppDispatch();
   const [hasError, setHasError] = useState(false);
@@ -17,8 +19,8 @@ function Search(): ReactNode {
   const handleClick = () => {
     if (newSearch !== null) {
       const newSearchTrimmed = newSearch.trim();
-      localStorage.setItem(searchKey, newSearchTrimmed);
       dispatch(updateSearch(newSearchTrimmed));
+      navigate(firstPage);
     }
   };
 

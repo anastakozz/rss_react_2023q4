@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { basicPageSize } from '../modules/constant';
 
 const pageSizeSlice = createSlice({
   name: 'searchParams',
   initialState: {
-    pageSize: '12',
+    pageSize: basicPageSize,
   },
   reducers: {
     updatePageSize(state, action: PayloadAction<string>) {
