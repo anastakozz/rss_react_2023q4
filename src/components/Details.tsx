@@ -6,7 +6,7 @@ import { useGetShowDataQuery } from '../store/api';
 export default function Details() {
   const params = useParams();
 
-  const { data, isLoading } = useGetShowDataQuery({
+  const { data, isFetching } = useGetShowDataQuery({
     method: 'shows.GetById',
     params: {
       showId: params.showId as string,
@@ -24,7 +24,7 @@ export default function Details() {
         </Link>
 
         <article className="flex gap-4 flex-wrap text-white ">
-          {isLoading ? (
+          {isFetching ? (
             <Loader />
           ) : (
             <>

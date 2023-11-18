@@ -10,7 +10,7 @@ export default function Cards() {
   const pageSize = useAppSelector((state) => state.pageSize.pageSize);
   const search = useAppSelector((state) => state.search.search);
 
-  const { data, isLoading } = useGetShowsListQuery({
+  const { data, isFetching } = useGetShowsListQuery({
     method: 'shows.Get',
     params: {
       search: {
@@ -22,27 +22,25 @@ export default function Cards() {
   });
 
   const dataToShow = data?.result;
-  console.log(data?.result);
 
-  return (
-    <>
-      {isLoading && <Loader />}
-      {dataToShow && dataToShow.length !== 0 ? (
-        <div className="flex gap-12 w-full justify-center text-white">
-          <div className="h-min grid grid-cols-2 md:grid-cols-3 gap-4">
-            {dataToShow.map((item, index) => {
-              return (
-                <div key={index}>
-                  <ResultsCard item={item}></ResultsCard>
-                </div>
-              );
-            })}
-          </div>
-          <Outlet />
+  if (isFetching) {
+    return <Loader />;
+  }
+
+  if (dataToShow && dataToShow.length !== 0) {
+    return (
+      <div className="flex gap-12 w-full justify-center text-white">
+        <div className="h-min grid grid-cols-2 md:grid-cols-3 gap-4">
+          {dataToShow.map((item, index) => (
+            <div key={index}>
+              <ResultsCard item={item}></ResultsCard>
+            </div>
+          ))}
         </div>
-      ) : (
-        'nothing to show'
-      )}
-    </>
-  );
+        <Outlet />
+      </div>
+    );
+  }
+
+  return 'nothing to show';
 }
