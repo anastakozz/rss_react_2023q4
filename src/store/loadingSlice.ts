@@ -5,7 +5,6 @@ const loadingSlice = createSlice({
   initialState: {
     isLoadingShowData: false,
     isLoadingShowsList: false,
-    isLoadingShowsNumber: false,
   },
   reducers: {
     setLoadingShowData: (state, action: PayloadAction<boolean>) => {
@@ -14,16 +13,12 @@ const loadingSlice = createSlice({
     setLoadingShowsList: (state, action: PayloadAction<boolean>) => {
       state.isLoadingShowsList = action.payload;
     },
-    setLoadingShowsNumber: (state, action: PayloadAction<boolean>) => {
-      state.isLoadingShowsNumber = action.payload;
-    },
   },
 });
 
 export const {
   setLoadingShowData,
   setLoadingShowsList,
-  setLoadingShowsNumber,
 } = loadingSlice.actions;
 
 export default loadingSlice.reducer;
