@@ -2,13 +2,9 @@ import { Button } from './components';
 import { useParams, Link } from 'react-router-dom';
 import Loader from './Loader';
 import { useGetShowDataQuery } from '../store/api';
-import { setLoadingShowData } from '../store/loadingSlice';
-import { useEffect } from 'react';
-import { useAppDispatch } from '../hooks';
 
 export default function Details() {
   const params = useParams();
-  const dispatch = useAppDispatch();
 
   const { data, isFetching } = useGetShowDataQuery({
     method: 'shows.GetById',
@@ -19,10 +15,6 @@ export default function Details() {
   });
 
   const dataToShow = data?.result;
-
-  useEffect(() => {
-    dispatch(setLoadingShowData(isFetching));
-  }, [isFetching, dispatch]);
 
   return (
     <div className="h-full w-2/3 relative" role="details">

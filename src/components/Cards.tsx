@@ -1,14 +1,11 @@
 import { ResultsCard } from './components';
 import { useParams, Outlet } from 'react-router-dom';
 import Loader from './Loader';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector } from '../hooks';
 import { useGetShowsListQuery } from '../store/api';
-import { useEffect } from 'react';
-import { setLoadingShowsList } from '../store/loadingSlice';
 
 export default function Cards() {
   const params = useParams();
-  const dispatch = useAppDispatch();
 
   const pageSize = useAppSelector((state) => state.pageSize.pageSize);
   const search = useAppSelector((state) => state.search.search);
@@ -25,10 +22,6 @@ export default function Cards() {
   });
 
   const dataToShow = data?.result;
-
-  useEffect(() => {
-    dispatch(setLoadingShowsList(isFetching));
-  }, [isFetching, dispatch]);
 
   if (isFetching) {
     return <Loader />;
