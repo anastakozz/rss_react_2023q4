@@ -21,11 +21,7 @@ export default function Details() {
   const dataToShow = data?.result;
 
   useEffect(() => {
-    if (isFetching) {
-      dispatch(setLoadingShowData(true));
-    } else {
-      dispatch(setLoadingShowData(false));
-    }
+    dispatch(setLoadingShowData(isFetching));
   }, [isFetching, dispatch]);
 
   return (

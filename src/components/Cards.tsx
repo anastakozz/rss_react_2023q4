@@ -27,11 +27,7 @@ export default function Cards() {
   const dataToShow = data?.result;
 
   useEffect(() => {
-    if (isFetching) {
-      dispatch(setLoadingShowsList(true));
-    } else {
-      dispatch(setLoadingShowsList(false));
-    }
+    dispatch(setLoadingShowsList(isFetching));
   }, [isFetching, dispatch]);
 
   if (isFetching) {
