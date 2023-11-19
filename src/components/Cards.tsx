@@ -3,6 +3,7 @@ import { useParams, Outlet } from 'react-router-dom';
 import Loader from './Loader';
 import { useAppSelector } from '../hooks';
 import { useGetShowsListQuery } from '../store/api';
+import { apiMethods } from '../modules/enum';
 
 export default function Cards() {
   const params = useParams();
@@ -11,7 +12,7 @@ export default function Cards() {
   const search = useAppSelector((state) => state.search.search);
 
   const { data, isFetching } = useGetShowsListQuery({
-    method: 'shows.Get',
+    method: apiMethods.showsList,
     params: {
       search: {
         query: search,
@@ -29,7 +30,10 @@ export default function Cards() {
 
   if (dataToShow && dataToShow.length !== 0) {
     return (
-      <div role='cards-list' className="flex gap-12 w-full justify-center text-white">
+      <div
+        role="cards-list"
+        className="flex gap-12 w-full justify-center text-white"
+      >
         <div className="h-min grid grid-cols-2 md:grid-cols-3 gap-4">
           {dataToShow.map((item, index) => (
             <div key={index}>

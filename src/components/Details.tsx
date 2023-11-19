@@ -2,12 +2,13 @@ import { Button } from './components';
 import { useParams, Link } from 'react-router-dom';
 import Loader from './Loader';
 import { useGetShowDataQuery } from '../store/api';
+import { apiMethods } from '../modules/enum';
 
 export default function Details() {
   const params = useParams();
 
   const { data, isFetching } = useGetShowDataQuery({
-    method: 'shows.GetById',
+    method: apiMethods.showData,
     params: {
       showId: params.showId as string,
       withEpisodes: true,

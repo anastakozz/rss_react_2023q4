@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { firstPage } from '../modules/constant';
 import { useAppSelector } from '../hooks';
 import { useGetShowsNumberQuery } from '../store/api';
+import { apiMethods } from '../modules/enum';
 
 export default function Pagination() {
   const search = useAppSelector((state) => state.search.search);
@@ -16,7 +17,7 @@ export default function Pagination() {
   const [total, setTotal] = useState<number>();
 
   const { data, isLoading } = useGetShowsNumberQuery({
-    method: 'shows.Count',
+    method: apiMethods.showsNumber,
     params: {
       search: {
         query: search,
@@ -43,7 +44,7 @@ export default function Pagination() {
 
   return (
     !isLoading && (
-      <div role='pagination' className="flex gap-4">
+      <div role="pagination" className="flex gap-4">
         <Button
           text={'Prev'}
           small={true}
