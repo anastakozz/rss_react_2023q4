@@ -20,16 +20,20 @@ export const mockedDetailsData = {
   image: 'Mocked Image URL',
 };
 
+export const testCardNumber = 20;
+
+export const mockShowsData = new Array(testCardNumber).fill(mockCard);
+
 export const routesConfig = [
   {
-    path: '/1',
+    path: '/:pageNumber',
     element: (
       <>
         <ResultsCard item={mockCard} />
         <Outlet />
       </>
     ),
-    children: [{ path: '/1/:showId', element: <Details /> }],
+    children: [{ path: '/:pageNumber/:showId', element: <Details /> }],
   },
 ];
 

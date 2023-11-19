@@ -8,7 +8,7 @@ test('input changes value', () => {
   render(<SearchInput updateState={mockUpdate} inputValue={''} />);
   const input = screen.getByRole('search-input');
   act(() => {
-    fireEvent.change(input,{ target: { value: 'test' } });
+    fireEvent.change(input, { target: { value: 'test' } });
   });
 
   expect(mockUpdate).toBeCalled();

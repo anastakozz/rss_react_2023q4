@@ -29,7 +29,7 @@ export default function Cards() {
 
   if (dataToShow && dataToShow.length !== 0) {
     return (
-      <div className="flex gap-12 w-full justify-center text-white">
+      <div role='cards-list' className="flex gap-12 w-full justify-center text-white">
         <div className="h-min grid grid-cols-2 md:grid-cols-3 gap-4">
           {dataToShow.map((item, index) => (
             <div key={index}>

@@ -43,7 +43,7 @@ export default function Pagination() {
 
   return (
     !isLoading && (
-      <div className="flex gap-4">
+      <div role='pagination' className="flex gap-4">
         <Button
           text={'Prev'}
           small={true}

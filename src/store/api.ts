@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Shows } from '../modules/types';
 import { ShowsProps } from '../modules/interfaces';
 
-const baseUrl = 'https://api.myshows.me/v2/rpc/';
+export const baseUrl = 'https://api.myshows.me/v2/rpc/';
 
 type apiParams = {
   [key: string]: string | number | boolean | apiParams;

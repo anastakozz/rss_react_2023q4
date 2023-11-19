@@ -1,14 +1,12 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  act,
-  waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
-import { routesConfig, mockedDetailsData } from './mockData';
+import { routesConfig } from './mockData';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { getShowData } from '../services/api.service';
+import { Provider } from 'react-redux';
+import store from '../store';
+import { server } from '../mock/api/server';
+import { http, HttpResponse } from 'msw';
+import { baseUrl } from '../store/api';
 const detailsUrl = '/1/1';
 
 vi.mock('react-router-dom', async () => {
@@ -23,48 +21,43 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-vi.mock('../services/api.service', async () => {
-  const mod: { [key: string]: unknown } = await vi.importActual(
-    '../services/api.service'
-  );
-  return {
-    ...mod,
-    getShowData: vi.fn(),
-  };
-});
-
-test('hides details component on click', () => {
+const MockComponent = () => {
   const router = createMemoryRouter(routesConfig, {
     initialEntries: [detailsUrl],
   });
-  render(<RouterProvider router={router} />);
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
+};
+
+test('hides details component on click', () => {
+  render(<MockComponent />);
 
   const closeButton = screen.getByText('Close');
-  act(() => {
-    fireEvent.click(closeButton);
-  });
+  fireEvent.click(closeButton);
 
   expect(screen.queryByRole('details')).toBeNull();
 });
 
 test('displays loader while fetching data', async () => {
-  const router = createMemoryRouter(routesConfig, {
-    initialEntries: [detailsUrl],
-  });
-  render(<RouterProvider router={router} />);
+  server.use(
+    http.post(`${baseUrl}*`, () =>
+      HttpResponse.json({
+        result: null,
+      })
+    )
+  );
+  render(<MockComponent />);
   const loader = screen.getByRole('loader');
   expect(loader).toBeDefined();
 });
 
-test('displays data correctly', async () => {
-  vi.mocked(getShowData).mockResolvedValue(mockedDetailsData);
+test('displays data correctly', () => {
+  render(<MockComponent />);
 
-  const router = createMemoryRouter(routesConfig, {
-    initialEntries: [detailsUrl],
-  });
-  render(<RouterProvider router={router} />);
-
-  await waitFor(() => {
+  waitFor(() => {
     expect(screen.getByRole('details-title')).toBeDefined();
     expect(screen.getByText('Mocked Country')).toBeDefined();
     expect(screen.getByText('Mocked Start Date')).toBeDefined();

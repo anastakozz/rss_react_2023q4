@@ -1,7 +1,9 @@
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
 import Pagination from '../components/Pagination';
 import { createMemoryRouter, RouterProvider } from 'react-router';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 const pages = {
   total: 3,
@@ -9,9 +11,7 @@ const pages = {
   next: 3,
   previous: 1,
 };
-const routesConfig = [
-  { path: '/:pageNumber', element: <Pagination total={pages.total} /> },
-];
+const routesConfig = [{ path: '/:pageNumber', element: <Pagination /> }];
 
 vi.mock('react-router-dom', async () => {
   const mod: { [key: string]: unknown } =
@@ -24,28 +24,51 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
+test('pagination is rendered', () => {
+  const router = createMemoryRouter(routesConfig, {
+    initialEntries: [`/${pages.initial}`],
+  });
+  render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
+
+  waitFor(() => {
+    expect(screen.getByRole('pagination')).toBeDefined();
+  });
+});
+
 test('pagination updates URL query parameter when page number increases', () => {
   const router = createMemoryRouter(routesConfig, {
     initialEntries: [`/${pages.initial}`],
   });
-  render(<RouterProvider router={router} />);
+  render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 
-  const nextButton = screen.getByText('Next');
-  act(() => {
+  waitFor(() => {
+    const nextButton = screen.getByText('Next');
     fireEvent.click(nextButton);
+    expect(router.state.location.pathname).toBe(`/${pages.next}`);
   });
-  expect(router.state.location.pathname).toBe(`/${pages.next}`);
 });
 
 test('pagination updates URL query parameter when page number diminishes', () => {
   const router = createMemoryRouter(routesConfig, {
     initialEntries: [`/${pages.initial}`],
   });
-  render(<RouterProvider router={router} />);
+  render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 
-  const PrevButton = screen.getByText('Prev');
-  act(() => {
+  waitFor(() => {
+    const PrevButton = screen.getByText('Prev');
     fireEvent.click(PrevButton);
+    expect(router.state.location.pathname).toBe(`/${pages.previous}`);
   });
-  expect(router.state.location.pathname).toBe(`/${pages.previous}`);
 });

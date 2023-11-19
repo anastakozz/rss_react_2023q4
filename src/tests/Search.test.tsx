@@ -1,31 +1,30 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
-import {
-  BrowserRouter,
-  createMemoryRouter,
-  RouterProvider,
-} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Search from '../components/Search';
-import { searchKey } from '../modules/constant';
-import { fullRoutesConfig } from './mockData';
-
-const mockUpdateContext = vi.fn();
-const localStorageMock: Storage = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-  key: vi.fn(),
-  length: 0,
-};
+import { Provider } from 'react-redux';
+import store from '../store';
 
 const MockSearch = () => {
   return (
-    <BrowserRouter>
-      <Search updateContext={mockUpdateContext} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    </Provider>
   );
 };
+
+const mockedUsedNavigate = vi.fn();
+
+vi.mock('react-router-dom', async () => {
+  const mod: { [key: string]: unknown } =
+    await vi.importActual('react-router-dom');
+  return {
+    ...mod,
+    useNavigate: () => mockedUsedNavigate,
+  };
+});
 
 test('renders Search component', () => {
   render(<MockSearch />);
@@ -33,33 +32,13 @@ test('renders Search component', () => {
   expect(search).toBeDefined();
 });
 
-test('saves new value to local storage onclick', () => {
-  global.localStorage = localStorageMock;
-
+test('navigates to first page onClick', () => {
   render(<MockSearch />);
-
-  const input = screen.getByRole('search-input');
   const button = screen.getByText('Search');
-  fireEvent.change(input, { target: { value: 'test search' } });
   fireEvent.click(button);
-  waitFor(() => {
-    expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      searchKey,
-      'test search'
-    );
-  });
-});
-
-test('gets a value from local storage when rendered', () => {
-  global.localStorage = localStorageMock;
-
-  const router = createMemoryRouter(fullRoutesConfig, {
-    initialEntries: ['/1'],
-  });
-  render(<RouterProvider router={router} />);
 
   waitFor(() => {
-    expect(localStorageMock.getItem).toHaveBeenCalledWith(searchKey);
+    expect(mockedUsedNavigate).toBeCalled();
   });
 });
 

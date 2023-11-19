@@ -1,28 +1,43 @@
 import Cards from '../components/Cards';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { expect, test } from 'vitest';
-import { DataContext } from '../modules/context';
-import { mockCard } from './mockData';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '../store';
+import { testCardNumber } from './mockData';
+import { server } from '../mock/api/server';
+import { http, HttpResponse } from 'msw';
+import { baseUrl } from '../store/api';
 
-test('shows correct number of cards', () => {
-  const testCardNumber = 5;
-  const mockData = new Array(testCardNumber).fill(mockCard);
-  render(
+const MockComponent = () => {
+  return (
     <BrowserRouter>
-      <DataContext.Provider value={mockData}>
+      <Provider store={store}>
         <Cards />
-      </DataContext.Provider>
+      </Provider>
     </BrowserRouter>
   );
+};
 
-  const cardsNumber = screen.getAllByRole('card');
-  expect(cardsNumber).toHaveLength(testCardNumber);
+test('shows correct number of cards', () => {
+  render(<MockComponent />);
+  waitFor(() => {
+    const cardsNumber = screen.getAllByRole('card');
+    expect(cardsNumber).toHaveLength(testCardNumber);
+  });
 });
 
 test('shows a message about data absence', () => {
-  render(<Cards />);
-
-  const message = screen.getByText('nothing to show');
-  expect(message).toBeDefined();
+  server.use(
+    http.post(`${baseUrl}*`, () =>
+      HttpResponse.json({
+        result: [],
+      })
+    )
+  );
+  render(<MockComponent />);
+  waitFor(() => {
+    const message = screen.getByText('nothing to show');
+    expect(message).toBeDefined();
+  });
 });
