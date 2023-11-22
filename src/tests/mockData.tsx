@@ -20,7 +20,7 @@ export const mockedDetailsData = {
   image: 'Mocked Image URL',
 };
 
-export const testCardNumber = 20;
+export const testCardNumber = 9;
 
 export const mockShowsData = new Array(testCardNumber).fill(mockCard);
 

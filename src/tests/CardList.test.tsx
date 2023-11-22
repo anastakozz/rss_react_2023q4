@@ -4,10 +4,10 @@ import { expect, test } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store';
-import { testCardNumber } from './mockData';
-import { server } from '../mock/api/server';
+import { mockShowsData, testCardNumber } from './mockData';
 import { http, HttpResponse } from 'msw';
 import { baseUrl } from '../store/api';
+import { server } from '../mock/api/server';
 
 const MockComponent = () => {
   return (
@@ -19,25 +19,24 @@ const MockComponent = () => {
   );
 };
 
-test('shows correct number of cards', () => {
+test('shows correct number of cards', async () => {
+  server.use(
+    http.post(`${baseUrl}*`, () => HttpResponse.json({ result: mockShowsData }))
+  );
   render(<MockComponent />);
-  waitFor(() => {
-    const cardsNumber = screen.getAllByRole('card');
-    expect(cardsNumber).toHaveLength(testCardNumber);
+
+  await waitFor(async () => {
+    const cardsNumber = await screen.findAllByRole('card');
+    expect(cardsNumber.length).toEqual(testCardNumber);
   });
 });
 
-test('shows a message about data absence', () => {
-  server.use(
-    http.post(`${baseUrl}*`, () =>
-      HttpResponse.json({
-        result: [],
-      })
-    )
-  );
+test('shows a message about data absence', async () => {
+  server.use(http.post(`${baseUrl}*`, () => HttpResponse.json({ result: [] })));
   render(<MockComponent />);
-  waitFor(() => {
-    const message = screen.getByText('nothing to show');
+
+  await waitFor(async () => {
+    const message = await screen.findByText('nothing to show');
     expect(message).toBeDefined();
   });
 });

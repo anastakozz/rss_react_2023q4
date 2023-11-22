@@ -54,10 +54,10 @@ test('displays loader while fetching data', async () => {
   expect(loader).toBeDefined();
 });
 
-test('displays data correctly', () => {
+test('displays data correctly', async () => {
   render(<MockComponent />);
 
-  waitFor(() => {
+  await waitFor(async () => {
     expect(screen.getByRole('details-title')).toBeDefined();
     expect(screen.getByText('Mocked Country')).toBeDefined();
     expect(screen.getByText('Mocked Start Date')).toBeDefined();
