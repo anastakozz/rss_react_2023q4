@@ -67,7 +67,7 @@ test('pagination updates URL query parameter when page number increases', async 
     );
   });
 
-  const nextButton = screen.getByText('Next');
+  const nextButton = await screen.findByText('Next');
   fireEvent.click(nextButton);
 
   act(() => {
@@ -93,7 +93,7 @@ test('pagination updates URL query parameter when page number diminishes', async
     );
   });
 
-  const PrevButton = screen.getByText('Prev');
+  const PrevButton = await screen.findByText('Prev');
   fireEvent.click(PrevButton);
   await act(async () => {
     expect(router.state.location.pathname).toBe(`/${pages.previous}`);
