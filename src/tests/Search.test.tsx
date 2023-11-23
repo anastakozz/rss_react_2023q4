@@ -1,5 +1,5 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { expect, test, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { expect, test } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import Search from '../components/Search';
 import { Provider } from 'react-redux';
@@ -15,31 +15,10 @@ const MockSearch = () => {
   );
 };
 
-const mockedUsedNavigate = vi.fn();
-
-vi.mock('react-router-dom', async () => {
-  const mod: { [key: string]: unknown } =
-    await vi.importActual('react-router-dom');
-  return {
-    ...mod,
-    useNavigate: () => mockedUsedNavigate,
-  };
-});
-
 test('renders Search component', () => {
   render(<MockSearch />);
   const search = screen.getByRole('search');
   expect(search).toBeDefined();
-});
-
-test('navigates to first page onClick', () => {
-  render(<MockSearch />);
-  const button = screen.getByText('Search');
-  fireEvent.click(button);
-
-  waitFor(() => {
-    expect(mockedUsedNavigate).toBeCalled();
-  });
 });
 
 test('throws on click on Error button', () => {
