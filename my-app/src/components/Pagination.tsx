@@ -1,3 +1,4 @@
+import { queryKeys } from '@/modules/enum';
 import { Button } from './components';
 import { useRouter } from 'next/router';
 
@@ -13,7 +14,7 @@ export default function Pagination({pagesTotal, page}: PaginationProps) {
   const isLoading = false;
 
   const handleClick = (newPage: number) => {
-    currentQuery['page'] = `${newPage}`;
+    currentQuery[queryKeys.pagination] = `${newPage}`;
     router.push({pathname: currentUrl,
     query: currentQuery},)
   };

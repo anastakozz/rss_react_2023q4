@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { Button } from './components';
 import { ShowsProps } from '@/modules/interfaces';
+import { queryKeys } from '@/modules/enum';
 
 type DetailsProps = {
   data: ShowsProps
@@ -12,7 +13,7 @@ export default function Details({data}: DetailsProps) {
   const currentQuery = { ...router.query };
 
   const handleClick = () => {
-    delete currentQuery['details'];
+    delete currentQuery[queryKeys.details];
     router.push({pathname: currentUrl,
     query: currentQuery},)
   };

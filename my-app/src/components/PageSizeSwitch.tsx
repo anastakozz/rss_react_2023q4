@@ -1,6 +1,7 @@
 import Button from './Button';
 import { ChangeEvent, useState } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import { queryKeys } from '@/modules/enum';
 
 type pageSizeProps = {
   size: string
@@ -18,7 +19,7 @@ export default function PageSizeSwitch({size}: pageSizeProps) {
   };
 
   const handleClick = () => {
-    currentQuery['size'] = value;
+    currentQuery[queryKeys.pageSize] = value;
     router.push({pathname: currentUrl,
     query: currentQuery},)
   };

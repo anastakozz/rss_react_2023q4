@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { ShowsProps } from '../modules/interfaces';
+import { queryKeys } from '@/modules/enum';
 
 type ResultCardProps = {
   item: ShowsProps;
@@ -12,7 +13,7 @@ export default function ResultsCard(props: ResultCardProps) {
   const { id, titleOriginal, totalSeasons, rating } = props.item;
 
   const handleClick = () => {
-    currentQuery['details'] = `${id}`;
+    currentQuery[queryKeys.details] = `${id}`;
     router.push({pathname: currentUrl,
     query: currentQuery},)
   };

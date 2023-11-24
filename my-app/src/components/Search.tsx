@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Button, SearchInput } from './components';
 import { useRouter } from 'next/router';
+import { queryKeys } from '@/modules/enum';
 
 type SearchProps = {
   search: string
@@ -10,7 +11,7 @@ function Search({search}: SearchProps): ReactNode {
   const router = useRouter();
   const currentUrl = router.pathname;
   const currentQuery = { ...router.query };
-  
+
   const [hasError, setHasError] = useState(false);
   const [newSearch, setNewSearch] = useState(search);
 
@@ -19,7 +20,7 @@ function Search({search}: SearchProps): ReactNode {
   };
 
   const handleClick = () => {
-  currentQuery['search'] = newSearch;
+  currentQuery[queryKeys.search] = newSearch;
   router.push({pathname: currentUrl,
   query: currentQuery},)
   };
