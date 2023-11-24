@@ -1,32 +1,28 @@
 import { Details, ResultsCard } from './components';
-import Loader from './Loader';
 import { Shows } from '@/modules/types';
-import { mockShowsData } from '@/modules/mockData';
+import { ShowsProps } from '@/modules/interfaces';
 
-export default function Cards() {
+type CardsProps = {
+  shows: Shows;
+  details: ShowsProps | null
+};
 
-  const dataToShow: Shows = mockShowsData;
-  const isFetching = false;
-  const isDetailsOpen = false;
+export default function Cards({shows, details}: CardsProps ) {
 
-  if (isFetching) {
-    return <Loader />;
-  }
-
-  if (dataToShow && dataToShow.length !== 0) {
+  if (shows && shows.length !== 0) {
     return (
       <div
         role="cards-list"
         className="flex gap-12 w-full justify-center text-white"
       >
         <div className="h-min grid grid-cols-2 md:grid-cols-3 gap-4">
-          {dataToShow.map((item, index) => (
+          {shows.map((item, index) => (
             <div key={index}>
               <ResultsCard item={item}></ResultsCard>
             </div>
           ))}
         </div>
-        {isDetailsOpen && <Details/>}
+        {details && <Details data={details}/>}
       </div>
     );
   }

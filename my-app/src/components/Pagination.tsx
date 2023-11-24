@@ -1,15 +1,21 @@
 import { Button } from './components';
-import { useEffect, useState } from 'react';
-import { firstPage } from '../modules/constant';
+import { useRouter } from 'next/router';
 
-export default function Pagination() {
+type PaginationProps = {
+  pagesTotal: number,
+  page: number
+}
 
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState<number>(1);
+export default function Pagination({pagesTotal, page}: PaginationProps) {
+  const router = useRouter()
+  const currentUrl = router.pathname;
+  const currentQuery = { ...router.query };
   const isLoading = false;
 
-  const handleClick = (url: string) => {
-    // navigate(url);
+  const handleClick = (newPage: number) => {
+    currentQuery['page'] = `${newPage}`;
+    router.push({pathname: currentUrl,
+    query: currentQuery},)
   };
 
   return (
@@ -20,19 +26,19 @@ export default function Pagination() {
           small={true}
           disabled={page === 1}
           onClick={() => {
-            handleClick(`/${page - 1}`);
+            handleClick(page - 1);
           }}
         ></Button>
         <div className="py-2 rounded-full bg-white px-4">
-          page {page} of {total}
+          page {page} of {pagesTotal}
         </div>
         <Button
           text={'Next'}
           small={true}
           onClick={() => {
-            handleClick(`/${page + 1}`);
+            handleClick(page + 1);
           }}
-          disabled={page === total}
+          disabled={page === pagesTotal}
         ></Button>
       </div>
     )

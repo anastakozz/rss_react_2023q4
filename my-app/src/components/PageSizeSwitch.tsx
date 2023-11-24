@@ -1,15 +1,26 @@
 import Button from './Button';
 import { ChangeEvent, useState } from 'react';
-import { firstPage } from '../modules/constant';
+import { useRouter } from 'next/router'
 
-export default function PageSizeSwitch() {
-  const [value, setValue] = useState('');
+type pageSizeProps = {
+  size: string
+}
+
+export default function PageSizeSwitch({size}: pageSizeProps) {
+  const router = useRouter()
+  const currentUrl = router.pathname;
+  const currentQuery = { ...router.query };
+
+  const [value, setValue] = useState(size);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   const handleClick = () => {
+    currentQuery['size'] = value;
+    router.push({pathname: currentUrl,
+    query: currentQuery},)
   };
 
   return (
