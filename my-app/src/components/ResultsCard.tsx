@@ -1,0 +1,31 @@
+import { ShowsProps } from '../modules/interfaces';
+
+type ResultCardProps = {
+  item: ShowsProps;
+};
+
+export default function ResultsCard(props: ResultCardProps) {
+  const { id, titleOriginal, totalSeasons, rating } = props.item;
+
+  return (
+    <div role="card">
+      <div
+        role="card-id"
+        className="bg-slate-500 max-w-xs p-4 rounded h-full  hover:shadow-orange-400 hover:shadow-lg active:scale-95 transition"
+        id={`${id}`}
+      >
+        <div className="underline my-1">
+          <span className="font-bold">{titleOriginal}</span>
+        </div>
+        <div>
+          <span className="">Total seasons: </span>
+          <span className="font-bold">{totalSeasons}</span>
+        </div>
+        <div>
+          <span className="">Rating: </span>
+          <span className="font-bold">{rating}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
