@@ -60,7 +60,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
 }>)
 
 export default function MainPage({searchQuery, shows, pagesTotal, currentPage, pageSize, detailsData}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log(detailsData)
   return (
     <main className="bg-slate-700 min-h-screen w-full">
       <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10 h-full'>
