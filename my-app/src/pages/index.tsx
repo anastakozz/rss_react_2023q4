@@ -12,6 +12,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
   const { query } = context;
   const { search, size, page, details } = query;
 
+  if (!page) {
+    if (context.res) {
+      context.res.writeHead(302, { Location: '/?page=1' });
+      context.res.end();
+    }
+  }
+
   const searchQuery = search?.toString() || '';
   const pageSize = size?.toString() || basicPageSize;
   const currentPage = page?.toString() || '1';
