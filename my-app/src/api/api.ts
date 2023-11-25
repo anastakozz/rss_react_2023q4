@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Shows } from '../modules/types';
 import { ShowsProps } from '../modules/interfaces';
+import { HYDRATE } from 'next-redux-wrapper'
 
 export const baseUrl = 'https://api.myshows.me/v2/rpc/';
 
@@ -11,6 +12,8 @@ type apiParams = {
 interface ApiResponse<T> {
   result: T;
 }
+
+type queryParams = {method: string, params: apiParams};
 
 const settings = {
   url: '/',
@@ -26,48 +29,33 @@ const body = {
   id: 1,
 };
 
+const generateQuery = ({ method, params }: queryParams) => ({
+  ...settings,
+  body: {
+    ...body,
+    method,
+    params,
+  },
+});
+
+
 export const showsApi = createApi({
   reducerPath: 'showsApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath]
+    }
+  },
   endpoints: (builder) => ({
-    getShowData: builder.query<
-      ApiResponse<ShowsProps>,
-      { method: string; params: apiParams }
-    >({
-      query: ({ method, params }) => ({
-        ...settings,
-        body: {
-          ...body,
-          method,
-          params,
-        },
-      }),
+    getShowData: builder.query<ApiResponse<ShowsProps>,queryParams>({
+      query: ({ method, params }) => generateQuery({ method, params }),
     }),
-    getShowsList: builder.query<
-      ApiResponse<Shows>,
-      { method: string; params: apiParams }
-    >({
-      query: ({ method, params }) => ({
-        ...settings,
-        body: {
-          ...body,
-          method,
-          params,
-        },
-      }),
+    getShowsList: builder.query<ApiResponse<Shows>, queryParams>({
+      query: ({ method, params }) => generateQuery({ method, params }),
     }),
-    getShowsNumber: builder.query<
-      ApiResponse<number>,
-      { method: string; params: apiParams }
-    >({
-      query: ({ method, params }) => ({
-        ...settings,
-        body: {
-          ...body,
-          method,
-          params,
-        },
-      }),
+    getShowsNumber: builder.query<ApiResponse<number>, queryParams>({
+      query: ({ method, params }) => generateQuery({ method, params }),
     }),
   }),
 });
