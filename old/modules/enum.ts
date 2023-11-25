@@ -3,10 +3,3 @@ export enum apiMethods {
   showsList = 'shows.Get',
   showsNumber = 'shows.Count',
 }
-
-export enum queryKeys {
-  pagination = 'page',
-  search = 'search',
-  pageSize = 'size',
-  details = 'details'
-}

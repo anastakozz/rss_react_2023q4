@@ -35,15 +35,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
   }))
   const shows = showsList.data?.result;
 
-  const ShowsNumber = await store.dispatch(showsApi.endpoints.getShowsNumber.initiate({
+  const showsNumber = await store.dispatch(showsApi.endpoints.getShowsNumber.initiate({
     method: apiMethods.showsNumber,
     params: {
       search: {
-        searchQuery
+        query: searchQuery,
       },
     },
   }))
-  const showsTotal = ShowsNumber.data?.result;
+  const showsTotal = showsNumber.data?.result;
   const pagesTotal = showsTotal ? Math.ceil(showsTotal / +pageSize) : 1;
 
   const response = details ? await store.dispatch(showsApi.endpoints.getShowData.initiate({

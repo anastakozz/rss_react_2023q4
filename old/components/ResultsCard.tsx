@@ -1,25 +1,16 @@
-import { useRouter } from 'next/router';
+import { Link, useParams } from 'react-router-dom';
 import { ShowsProps } from '../modules/interfaces';
-import { queryKeys } from '@/modules/enum';
 
 type ResultCardProps = {
   item: ShowsProps;
 };
 
 export default function ResultsCard(props: ResultCardProps) {
-  const router = useRouter();
-  const currentUrl = router.pathname;
-  const currentQuery = { ...router.query };
   const { id, titleOriginal, totalSeasons, rating } = props.item;
-
-  const handleClick = () => {
-    currentQuery[queryKeys.details] = `${id}`;
-    router.push({pathname: currentUrl,
-    query: currentQuery},)
-  };
+  const params = useParams();
 
   return (
-    <div role="card" onClick={handleClick}>
+    <Link role="card" to={`/${params.pageNumber}/${id}`}>
       <div
         role="card-id"
         className="bg-slate-500 max-w-xs p-4 rounded h-full  hover:shadow-orange-400 hover:shadow-lg active:scale-95 transition"
@@ -37,6 +28,6 @@ export default function ResultsCard(props: ResultCardProps) {
           <span className="font-bold">{rating}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

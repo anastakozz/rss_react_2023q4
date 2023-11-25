@@ -1,25 +1,28 @@
-import { useAppSelector, useAppDispatch } from '../hooks';
-import { updatePageSize } from '../store/pageSizeSlice';
 import Button from './Button';
 import { ChangeEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { firstPage } from '../modules/constant';
+import { useRouter } from 'next/router';
+import { queryKeys } from '@/modules/enum';
 
-export default function PageSizeSwitch() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const pageSize = useAppSelector((state) => state.pageSize.pageSize);
-  const [value, setValue] = useState(pageSize);
+type pageSizeProps = {
+  size: string
+}
+
+export default function PageSizeSwitch({size}: pageSizeProps) {
+  const router = useRouter()
+  const currentUrl = router.pathname;
+  const currentQuery = { ...router.query };
+
+  const [value, setValue] = useState(size);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   const handleClick = () => {
-    if (value) {
-      dispatch(updatePageSize(value));
-      navigate(firstPage);
-    }
+    currentQuery[queryKeys.pageSize] = value;
+    currentQuery[queryKeys.pagination] = '1';
+    router.push({pathname: currentUrl,
+    query: currentQuery},)
   };
 
   return (

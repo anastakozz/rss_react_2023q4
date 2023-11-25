@@ -1,72 +1,67 @@
+import { useRouter } from 'next/router';
 import { Button } from './components';
-import { useParams, Link } from 'react-router-dom';
-import Loader from './Loader';
-import { useGetShowDataQuery } from '../store/api';
-import { apiMethods } from '../modules/enum';
+import { ShowsProps } from '@/modules/interfaces';
+import { queryKeys } from '@/modules/enum';
 
-export default function Details() {
-  const params = useParams();
+type DetailsProps = {
+  data: ShowsProps
+}
 
-  const { data, isFetching } = useGetShowDataQuery({
-    method: apiMethods.showData,
-    params: {
-      showId: params.showId as string,
-      withEpisodes: true,
-    },
-  });
+export default function Details({data}: DetailsProps) {
+  const router = useRouter();
+  const currentUrl = router.pathname;
+  const currentQuery = { ...router.query };
 
-  const dataToShow = data?.result;
+  const handleClick = () => {
+    delete currentQuery[queryKeys.details];
+    router.push({pathname: currentUrl,
+    query: currentQuery},)
+  };
 
   return (
     <div className="h-full w-2/3 relative" role="details">
       <div className="h-full pb-8">
-        <Link to={`/${params.pageNumber}`} className="absolute top-4 right-4">
-          <Button text="Close"></Button>
-        </Link>
-
+        <div className="absolute top-4 right-4">
+          <Button text="Close" onClick={handleClick}></Button>
+        </div>
         <article className="flex gap-4 flex-wrap text-white ">
-          {isFetching ? (
-            <Loader />
-          ) : (
-            <>
-              {dataToShow && (
+              {data && (
                 <>
-                  <div className="object-contain ">
-                    <img
-                      className="rounded"
-                      src={
-                        typeof dataToShow.image === 'string'
-                          ? dataToShow.image
-                          : ''
-                      }
-                      alt="show poster"
-                    />
-                  </div>
-                  <div>
-                    <div
-                      role="details-title"
-                      className="text-bold text-4xl pb-4"
-                    >
-                      {dataToShow.titleOriginal}
-                    </div>
+                  {data.image && 
+                    <div className="object-contain ">
+                      <img
+                        className="rounded"
+                        src={
+                          typeof data.image === 'string'
+                            ? data.image
+                            : ''
+                        }
+                        alt="show poster"
+                      />
+                    </div>}
                     <div>
-                      <span className="text-bold">Country: </span>
-                      <span>{dataToShow.country}</span>
+                      <div
+                        role="details-title"
+                        className="text-bold text-4xl pb-4"
+                      >
+                        {data.titleOriginal}
+                      </div>
+                      <div>
+                        <span className="text-bold">Country: </span>
+                        <span>{data.country}</span>
+                      </div>
+                      <div>
+                        <span className="text-bold">Started: </span>
+                        <span>{data.started}</span>
+                      </div>
+                      <p className="pt-4">
+                        {data.description
+                          .toString()
+                          .replace(/<[^>]+>/g, '')}
+                      </p>
                     </div>
-                    <div>
-                      <span className="text-bold">Started: </span>
-                      <span>{dataToShow.started}</span>
-                    </div>
-                    <p className="pt-4">
-                      {dataToShow.description
-                        .toString()
-                        .replace(/<[^>]+>/g, '')}
-                    </p>
-                  </div>
-                </>
+                  </>
               )}
-            </>
-          )}
         </article>
       </div>
     </div>

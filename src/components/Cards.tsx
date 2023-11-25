@@ -1,50 +1,31 @@
-import { ResultsCard } from './components';
-import { useParams, Outlet } from 'react-router-dom';
-import Loader from './Loader';
-import { useAppSelector } from '../hooks';
-import { useGetShowsListQuery } from '../store/api';
-import { apiMethods } from '../modules/enum';
+import { Details, ResultsCard } from './components';
+import { Shows } from '@/modules/types';
+import { ShowsProps } from '@/modules/interfaces';
 
-export default function Cards() {
-  const params = useParams();
+type CardsProps = {
+  shows: Shows;
+  details: ShowsProps | null
+};
 
-  const pageSize = useAppSelector((state) => state.pageSize.pageSize);
-  const search = useAppSelector((state) => state.search.search);
+export default function Cards({shows, details}: CardsProps ) {
 
-  const { data, isFetching } = useGetShowsListQuery({
-    method: apiMethods.showsList,
-    params: {
-      search: {
-        query: search,
-      },
-      page: params.pageNumber as string,
-      pageSize,
-    },
-  });
-
-  const dataToShow = data?.result;
-
-  if (isFetching) {
-    return <Loader />;
-  }
-
-  if (dataToShow && dataToShow.length !== 0) {
+  if (shows && shows.length !== 0) {
     return (
       <div
         role="cards-list"
         className="flex gap-12 w-full justify-center text-white"
       >
         <div className="h-min grid grid-cols-2 md:grid-cols-3 gap-4">
-          {dataToShow.map((item, index) => (
+          {shows.map((item, index) => (
             <div key={index}>
               <ResultsCard item={item}></ResultsCard>
             </div>
           ))}
         </div>
-        <Outlet />
+        {details && <Details data={details}/>}
       </div>
     );
   }
 
-  return 'nothing to show';
+  return <div className='text-white text-center'>This search returns no results. Try another search term, please!</div>;
 }

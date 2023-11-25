@@ -1,6 +1,5 @@
 import Cards from './Cards';
 import Search from './Search';
-import Results from './Results';
 import SearchInput from './SearchInput';
 import ResultsCard from './ResultsCard';
 import Button from './Button';
@@ -13,7 +12,6 @@ export {
   Button,
   Search,
   SearchInput,
-  Results,
   ResultsCard,
   Pagination,
   Details,

@@ -1,28 +1,27 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Button, SearchInput } from './components';
-import { useRouter } from 'next/router';
-import { queryKeys } from '@/modules/enum';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { updateSearch } from '../store/searchSlice';
+import { useNavigate } from 'react-router-dom';
+import { firstPage } from '../modules/constant';
 
-type SearchProps = {
-  search: string
-}
-
-function Search({search}: SearchProps): ReactNode {
-  const router = useRouter();
-  const currentUrl = router.pathname;
-  const currentQuery = { ...router.query };
-
+function Search(): ReactNode {
+  const navigate = useNavigate();
+  const savedSearch = useAppSelector((state) => state.search.search);
+  const dispatch = useAppDispatch();
   const [hasError, setHasError] = useState(false);
-  const [newSearch, setNewSearch] = useState(search);
+  const [newSearch, setNewSearch] = useState(savedSearch);
 
   const updateState = (value: string) => {
     setNewSearch(value);
   };
 
   const handleClick = () => {
-  currentQuery[queryKeys.search] = newSearch;
-  router.push({pathname: currentUrl,
-  query: currentQuery},)
+    if (newSearch !== null) {
+      const newSearchTrimmed = newSearch.trim();
+      dispatch(updateSearch(newSearchTrimmed));
+      navigate(firstPage);
+    }
   };
 
   const throwTestError = () => {
