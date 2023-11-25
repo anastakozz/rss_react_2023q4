@@ -28,11 +28,13 @@ export default function Details({ data }: DetailsProps) {
           {data && (
             <>
               {data.image && (
-                <div className="object-contain ">
+                <div className="object-contain">
                   <Image
-                    className="rounded"
+                    className="rounded object-contain"
                     src={typeof data.image === "string" ? data.image : ""}
                     alt="show poster"
+                    width={500}
+                    height={500}
                   />
                 </div>
               )}
