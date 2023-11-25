@@ -1,4 +1,5 @@
-import { ShowsProps } from "./interfaces";
+import { basicPageSize } from "@/modules/constant";
+import { ShowsProps } from "../../src/modules/interfaces";
 
 export const mockCard: ShowsProps = {
   id: "1",
@@ -12,9 +13,22 @@ export const mockedDetailsData = {
   country: "Mocked Country",
   started: "Mocked Start Date",
   description: "Mocked Description",
-  image: undefined,
+  image: "",
 };
 
 export const testCardNumber = 9;
 
 export const mockShowsData = new Array(testCardNumber).fill(mockCard);
+
+export const mockMainPageData = {
+  searchQuery: '',
+  shows: mockShowsData,
+  pagesTotal: 1, 
+  currentPage: '1',
+  pageSize: basicPageSize, 
+  detailsData: mockedDetailsData
+}
+
+
+
+
