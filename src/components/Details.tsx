@@ -1,21 +1,21 @@
-import { useRouter } from 'next/router';
-import { Button } from './components';
-import { ShowsProps } from '@/modules/interfaces';
-import { queryKeys } from '@/modules/enum';
+import { useRouter } from "next/router";
+import { Button } from "./components";
+import { ShowsProps } from "@/modules/interfaces";
+import { queryKeys } from "@/modules/enum";
+import Image from "next/image";
 
 type DetailsProps = {
-  data: ShowsProps
-}
+  data: ShowsProps;
+};
 
-export default function Details({data}: DetailsProps) {
+export default function Details({ data }: DetailsProps) {
   const router = useRouter();
   const currentUrl = router.pathname;
   const currentQuery = { ...router.query };
 
   const handleClick = () => {
     delete currentQuery[queryKeys.details];
-    router.push({pathname: currentUrl,
-    query: currentQuery},)
+    router.push({ pathname: currentUrl, query: currentQuery });
   };
 
   return (
@@ -25,43 +25,35 @@ export default function Details({data}: DetailsProps) {
           <Button text="Close" onClick={handleClick}></Button>
         </div>
         <article className="flex gap-4 flex-wrap text-white ">
-              {data && (
-                <>
-                  {data.image && 
-                    <div className="object-contain ">
-                      <img
-                        className="rounded"
-                        src={
-                          typeof data.image === 'string'
-                            ? data.image
-                            : ''
-                        }
-                        alt="show poster"
-                      />
-                    </div>}
-                    <div>
-                      <div
-                        role="details-title"
-                        className="text-bold text-4xl pb-4"
-                      >
-                        {data.titleOriginal}
-                      </div>
-                      <div>
-                        <span className="text-bold">Country: </span>
-                        <span>{data.country}</span>
-                      </div>
-                      <div>
-                        <span className="text-bold">Started: </span>
-                        <span>{data.started}</span>
-                      </div>
-                      <p className="pt-4">
-                        {data.description
-                          .toString()
-                          .replace(/<[^>]+>/g, '')}
-                      </p>
-                    </div>
-                  </>
+          {data && (
+            <>
+              {data.image && (
+                <div className="object-contain ">
+                  <Image
+                    className="rounded"
+                    src={typeof data.image === "string" ? data.image : ""}
+                    alt="show poster"
+                  />
+                </div>
               )}
+              <div>
+                <div role="details-title" className="text-bold text-4xl pb-4">
+                  {data.titleOriginal}
+                </div>
+                <div>
+                  <span className="text-bold">Country: </span>
+                  <span>{data.country}</span>
+                </div>
+                <div>
+                  <span className="text-bold">Started: </span>
+                  <span>{data.started}</span>
+                </div>
+                <p className="pt-4">
+                  {data.description.toString().replace(/<[^>]+>/g, "")}
+                </p>
+              </div>
+            </>
+          )}
         </article>
       </div>
     </div>

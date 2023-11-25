@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router';
-import { ShowsProps } from '../modules/interfaces';
-import { queryKeys } from '@/modules/enum';
+import { useRouter } from "next/router";
+import { ShowsProps } from "../modules/interfaces";
+import { queryKeys } from "@/modules/enum";
 
 type ResultCardProps = {
   item: ShowsProps;
@@ -14,8 +14,7 @@ export default function ResultsCard(props: ResultCardProps) {
 
   const handleClick = () => {
     currentQuery[queryKeys.details] = `${id}`;
-    router.push({pathname: currentUrl,
-    query: currentQuery},)
+    router.push({ pathname: currentUrl, query: currentQuery });
   };
 
   return (

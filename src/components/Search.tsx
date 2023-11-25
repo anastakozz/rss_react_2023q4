@@ -1,13 +1,13 @@
-import { ReactNode, useEffect, useState } from 'react';
-import { Button, SearchInput } from './components';
-import { useRouter } from 'next/router';
-import { queryKeys } from '@/modules/enum';
+import { ReactNode, useEffect, useState } from "react";
+import { Button, SearchInput } from "./components";
+import { useRouter } from "next/router";
+import { queryKeys } from "@/modules/enum";
 
 type SearchProps = {
-  search: string
-}
+  search: string;
+};
 
-function Search({search}: SearchProps): ReactNode {
+function Search({ search }: SearchProps): ReactNode {
   const router = useRouter();
   const currentUrl = router.pathname;
   const currentQuery = { ...router.query };
@@ -20,10 +20,9 @@ function Search({search}: SearchProps): ReactNode {
   };
 
   const handleClick = () => {
-  currentQuery[queryKeys.search] = newSearch;
-  currentQuery[queryKeys.pagination] = '1';
-  router.push({pathname: currentUrl,
-  query: currentQuery},)
+    currentQuery[queryKeys.search] = newSearch;
+    currentQuery[queryKeys.pagination] = "1";
+    router.push({ pathname: currentUrl, query: currentQuery });
   };
 
   const throwTestError = () => {
@@ -32,7 +31,7 @@ function Search({search}: SearchProps): ReactNode {
 
   useEffect(() => {
     if (hasError) {
-      throw new Error('this is a test Error');
+      throw new Error("this is a test Error");
     }
   }, [hasError]);
 
@@ -48,7 +47,7 @@ function Search({search}: SearchProps): ReactNode {
           ></Button>
           <SearchInput
             updateState={updateState}
-            inputValue={newSearch || ''}
+            inputValue={newSearch || ""}
           ></SearchInput>
           <Button text="Search" onClick={handleClick}></Button>
         </div>

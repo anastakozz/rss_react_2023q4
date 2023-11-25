@@ -1,3 +1,3 @@
-import { ShowsProps } from './interfaces';
+import { ShowsProps } from "./interfaces";
 
 export type Shows = ShowsProps[];
