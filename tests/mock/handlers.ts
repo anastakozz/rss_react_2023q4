@@ -9,3 +9,14 @@ export const handlers = [
     });
   }),
 ];
+
+export const createHandler = (status: number = 200) =>
+  http.post(`${baseUrl}*`, ({ request }) => {
+    if (status !== 200) {
+      return new HttpResponse(null, {
+        status,
+      });
+    }
+
+    return HttpResponse.json(request.body);
+  });

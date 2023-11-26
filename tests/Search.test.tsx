@@ -22,7 +22,6 @@ test("throws on click on Error button", () => {
   } catch (error) {
     expect(error).toBeInstanceOf(Error);
     expect((error as Error).message).toBe("this is a test Error");
-    expect(screen.findByRole("error-boundary")).toBeDefined();
   }
 });
 

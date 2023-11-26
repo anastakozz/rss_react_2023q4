@@ -21,14 +21,10 @@ export const testCardNumber = 9;
 export const mockShowsData = new Array(testCardNumber).fill(mockCard);
 
 export const mockMainPageData = {
-  searchQuery: '',
+  searchQuery: "",
   shows: mockShowsData,
-  pagesTotal: 1, 
-  currentPage: '1',
-  pageSize: basicPageSize, 
-  detailsData: mockedDetailsData
-}
-
-
-
-
+  pagesTotal: 1,
+  currentPage: "1",
+  pageSize: basicPageSize,
+  detailsData: mockedDetailsData,
+};

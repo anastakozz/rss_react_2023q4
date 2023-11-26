@@ -35,6 +35,7 @@ export default function Details({ data }: DetailsProps) {
                     alt="show poster"
                     width={500}
                     height={500}
+                    priority={true}
                   />
                 </div>
               )}

@@ -7,7 +7,6 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   test: {
-    setupFiles: ["./tests/setupTests.ts"],
     globals: true,
     environment: "jsdom",
     coverage: {
