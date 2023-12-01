@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  main {
+    @apply min-h-screen text-white font-bold;
+  }
+
   h1 {
-    @apply py-4 text-center text-4xl text-red-500;
+    @apply py-4 text-center text-4xl ;
   }
 }
 

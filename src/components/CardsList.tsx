@@ -5,9 +5,12 @@ export default function CardsList() {
   const cards = useAppSelector((state) => state.cards.cards);
   return (
     <section>
-      {cards.map((item) => (
-        <Card item={item}></Card>
-      ))}
+      {cards.map((item, index) => {
+        if (index === cards.length - 1) {
+          return <Card key={index} item={item} isLast={true}></Card>;
+        }
+        return <Card key={index} item={item}></Card>;
+      })}
     </section>
   );
 }
