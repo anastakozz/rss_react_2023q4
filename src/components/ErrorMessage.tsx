@@ -5,5 +5,5 @@ interface ErrorProps {
 }
 
 export default function ErrorMessage({ children }: ErrorProps) {
-  return <div className=" absolute text-red-600 text-sm text-center font-normal">{children}</div>;
+  return <div className=" absolute text-red-600 text-xs text-center font-normal">{children}</div>;
 }

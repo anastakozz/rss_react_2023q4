@@ -8,8 +8,6 @@ import BasicInput from '../components/inputComponents/BasicInput';
 import SubmitButton from '../components/SubmitButton';
 import GenderSelect from '../components/inputComponents/GenderSelect';
 
-const inputClassnames = 'rounded text-black px-4 font-normal';
-
 function StandartForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -27,15 +25,17 @@ function StandartForm() {
   const [genderErr, setGenderErr] = useState<string | undefined>(undefined);
 
   const termsRef = useRef<HTMLInputElement | null>(null);
+  const [termsErr, setTermsErr] = useState<string | undefined>(undefined);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const formData = {
       name: nameRef.current?.value,
-      age: ageRef.current?.value,
+      age: ageRef.current?.value ? +ageRef.current?.value : undefined,
       email: mailRef.current?.value,
       gender: genderRef.current?.value,
+      terms: termsRef.current?.checked
     };
 
     const { isOk, result } = await validateForm(formData);
@@ -48,6 +48,7 @@ function StandartForm() {
       setAgeErr(result.find((err) => err.includes('age')));
       setMailErr(result.find((err) => err.includes('email')));
       setGenderErr(result.find((err) => err.includes('gender')));
+      setTermsErr(result.find((err) => err.includes('T&C')));
     }
   };
 
@@ -76,15 +77,14 @@ function StandartForm() {
         <GenderSelect ref={genderRef} title="Gender :">
           {genderErr && <ErrorMessage>{genderErr}</ErrorMessage>}
         </GenderSelect>
-        <label className="min-w-full">
-          <span className="min-w-xl relative mr-4">T&C :</span>
-          <input
-            className={inputClassnames}
-            type="checkbox"
-            name="T&C"
-            ref={termsRef}
-          />
-        </label>
+        <BasicInput
+          type="checkbox"
+          ref={termsRef}
+          title="T&C :"
+          isInline={true}
+        >
+          {termsErr && <ErrorMessage>{termsErr}</ErrorMessage>}
+        </BasicInput>
         <SubmitButton />
       </form>
     </main>

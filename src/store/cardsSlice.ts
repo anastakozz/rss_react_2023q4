@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type CardData = {
   name: string;
-  age: string;
+  age: number;
   email: string;
   password?: string;
-  gender?: string ;
-  rules?: boolean;
+  gender: string;
+  terms?: boolean;
   picture?: string;
   country?: string;
 };
