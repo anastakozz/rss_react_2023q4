@@ -1,4 +1,10 @@
 import * as yup from 'yup';
+import {
+  hasDigits,
+  hasUppercased,
+  hasLowercased,
+  hasSpecialChar,
+} from './passwordValidation';
 
 const personSchema = yup.object({
   name: yup
@@ -9,7 +15,9 @@ const personSchema = yup.object({
       'first letter of name should be uppercased',
       (value) => {
         if (value[0]) {
-          return value[0] === value[0].toUpperCase();
+          return (
+            isNaN(+value[0] / 1) === true && value[0] === value[0].toUpperCase()
+          );
         }
       }
     ),
@@ -26,36 +34,32 @@ const personSchema = yup.object({
       'gender is not selected',
       (value) => value !== 'not selected'
     ),
+  password: yup
+    .string()
+    .required()
+    .test(
+      'hasDigits',
+      'password should contain at least 1 digit',
+      (value) => hasDigits(value) === true
+    )
+    .test(
+      'hasUppercased',
+      'password should contain at least 1 uppercased letter',
+      (value) => hasUppercased(value) === true
+    )
+    .test(
+      'hasLowercased',
+      'password should contain at least 1 lowercased letter',
+      (value) => hasLowercased(value) === true
+    )
+    .test(
+      'hasSpecialChar',
+      'password should contain at least 1 special character',
+      (value) => hasSpecialChar(value) === true
+    ),
   terms: yup
     .boolean()
     .test('terms-isOk', 'you need to accept T&C', (value) => value === true),
 });
 
-interface rawData {
-  [key: string]: string | number | undefined | boolean;
-}
-
-export async function validateForm(formData: rawData) {
-  console.log(formData);
-  try {
-    const validatedData = await personSchema.validate(formData, {
-      abortEarly: false,
-    });
-    console.log(validatedData);
-
-    return { result: validatedData, isOk: true };
-  } catch (err) {
-    if (err instanceof yup.ValidationError) {
-      console.log(err.errors);
-      return {
-        result: err.errors,
-        isOk: false,
-      };
-    }
-    console.log(err);
-    return {
-      result: ['something went wrong'],
-      isOk: false,
-    };
-  }
-}
+export default personSchema;

@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks';
 import { updateCards } from '../store/cardsSlice';
-import { validateForm } from './validation/personSchema';
+import { validateForm } from './validation/formValidation';
 import ErrorMessage from '../components/ErrorMessage';
 import BasicInput from '../components/inputComponents/BasicInput';
 import SubmitButton from '../components/SubmitButton';
@@ -24,6 +24,12 @@ function StandartForm() {
   const genderRef = useRef<HTMLSelectElement | null>(null);
   const [genderErr, setGenderErr] = useState<string | undefined>(undefined);
 
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [passwordErr, setPasswordErr] = useState<string | undefined>(undefined);
+
+  const repeatPasswordRef = useRef<HTMLInputElement | null>(null);
+  const [repeatPasswordErr, setRepeatPasswordErr] = useState<string | undefined>(undefined);
+
   const termsRef = useRef<HTMLInputElement | null>(null);
   const [termsErr, setTermsErr] = useState<string | undefined>(undefined);
 
@@ -35,7 +41,9 @@ function StandartForm() {
       age: ageRef.current?.value ? +ageRef.current?.value : undefined,
       email: mailRef.current?.value,
       gender: genderRef.current?.value,
-      terms: termsRef.current?.checked
+      terms: termsRef.current?.checked,
+      password: passwordRef.current?.value,
+      repeatedPassword: repeatPasswordRef.current?.value,
     };
 
     const { isOk, result } = await validateForm(formData);
@@ -49,6 +57,8 @@ function StandartForm() {
       setMailErr(result.find((err) => err.includes('email')));
       setGenderErr(result.find((err) => err.includes('gender')));
       setTermsErr(result.find((err) => err.includes('T&C')));
+      setPasswordErr(result.find((err) => err.includes('password')));
+      setRepeatPasswordErr(result.find((err) => err.includes('password')));
     }
   };
 
@@ -62,7 +72,7 @@ function StandartForm() {
         to MainPage
       </Link>
       <form
-        className="mx-auto flex max-w-fit flex-col  gap-6 px-10 pt-10"
+        className="mx-auto flex max-w-fit flex-col  gap-4 px-10 mt-4"
         onSubmit={handleSubmit}
       >
         <BasicInput type="text" ref={nameRef} title="Name :">
@@ -77,6 +87,12 @@ function StandartForm() {
         <GenderSelect ref={genderRef} title="Gender :">
           {genderErr && <ErrorMessage>{genderErr}</ErrorMessage>}
         </GenderSelect>
+        <BasicInput type="text" ref={passwordRef} title="Password :">
+          {passwordErr && <ErrorMessage>{passwordErr}</ErrorMessage>}
+        </BasicInput>
+        <BasicInput type="password" ref={repeatPasswordRef} title="Repeat password :">
+          {repeatPasswordErr && <ErrorMessage>{repeatPasswordErr}</ErrorMessage>}
+        </BasicInput>
         <BasicInput
           type="checkbox"
           ref={termsRef}
