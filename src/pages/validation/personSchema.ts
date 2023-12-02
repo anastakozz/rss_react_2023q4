@@ -6,7 +6,7 @@ import {
   hasSpecialChar,
 } from './passwordValidation';
 
-const personSchema = yup.object({
+const personSchema = yup.object().shape({
   name: yup
     .string()
     .required()
@@ -64,6 +64,25 @@ const personSchema = yup.object({
       (schema) => schema === password
     );
   }),
+  picture: yup
+    .mixed<File>()
+    .required('please upload a picture')
+    .test(
+      'isSizeCorrect',
+      'picture size must be equal or less than 1 MB',
+      (value) => {
+        const size: number = value.size;
+        return size <= 1000000;
+      }
+    )
+    .test(
+      'extensionIsOK',
+      'picture should have an extension jpg or png',
+      (value) => {
+        const type: string = value.type;
+        return type === 'image/jpg' || type === 'image/png';
+      }
+    ),
   terms: yup
     .boolean()
     .test('terms-isOk', 'you need to accept T&C', (value) => value === true),

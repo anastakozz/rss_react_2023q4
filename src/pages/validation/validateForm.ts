@@ -2,7 +2,14 @@ import personSchema from './personSchema';
 import * as yup from 'yup';
 
 interface rawData {
-  [key: string]: string | number | undefined | boolean;
+  name: string | undefined;
+  age: number | undefined;
+  email: string | undefined;
+  gender: string | undefined;
+  terms: boolean | undefined;
+  password: string | undefined;
+  repeatedPassword: string | undefined;
+  picture: File | undefined;
 }
 
 export async function validateForm(formData: rawData) {
@@ -19,7 +26,7 @@ export async function validateForm(formData: rawData) {
       age,
       gender,
       email,
-      password
+      password,
     };
 
     return { result, isOk: true };

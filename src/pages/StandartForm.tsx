@@ -33,6 +33,9 @@ function StandartForm() {
   const termsRef = useRef<HTMLInputElement | null>(null);
   const [termsErr, setTermsErr] = useState<string | undefined>(undefined);
 
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const [fileErr, setFileErr] = useState<string | undefined>(undefined);
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -44,6 +47,13 @@ function StandartForm() {
       terms: termsRef.current?.checked,
       password: passwordRef.current?.value,
       repeatedPassword: repeatRef.current?.value,
+      picture: fileRef.current?.files ? fileRef.current.files[0] : undefined
+      // pictureSize: fileRef.current?.files
+      //   ? fileRef.current?.files[0]?.size
+      //   : fileRef.current?.value,
+      // picture: fileRef.current?.files
+      //   ? fileRef.current?.files[0]?.name
+      //   : fileRef.current?.value,
     };
 
     const { isOk, result } = await validateForm(formData);
@@ -59,6 +69,7 @@ function StandartForm() {
       setTermsErr(result.find((err) => err.includes('T&C')));
       setPasswordErr(result.find((err) => err.includes('password')));
       setRepeatErr(result.find((err) => err.includes('match')));
+      setFileErr(result.find((err) => err.includes('picture')));
     }
   };
 
@@ -92,6 +103,15 @@ function StandartForm() {
         </BasicInput>
         <BasicInput type="password" ref={repeatRef} title="Repeat password :">
           {repeatErr && <ErrorMessage>{repeatErr}</ErrorMessage>}
+        </BasicInput>
+        <BasicInput
+          type="file"
+          ref={fileRef}
+          title="Image :"
+          accept=".png, .jpeg"
+          isInline={true}
+        >
+          {fileErr && <ErrorMessage>{fileErr}</ErrorMessage>}
         </BasicInput>
         <BasicInput
           type="checkbox"
