@@ -4,7 +4,7 @@ export type CardData = {
   name: string;
   age: number;
   email: string;
-  password?: string;
+  password: string;
   gender: string;
   terms?: boolean;
   picture?: string;

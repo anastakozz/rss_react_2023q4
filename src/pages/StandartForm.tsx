@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks';
 import { updateCards } from '../store/cardsSlice';
-import { validateForm } from './validation/formValidation';
+import { validateForm } from './validation/validateForm';
 import ErrorMessage from '../components/ErrorMessage';
 import BasicInput from '../components/inputComponents/BasicInput';
 import SubmitButton from '../components/SubmitButton';
@@ -28,7 +28,9 @@ function StandartForm() {
   const [passwordErr, setPasswordErr] = useState<string | undefined>(undefined);
 
   const repeatPasswordRef = useRef<HTMLInputElement | null>(null);
-  const [repeatPasswordErr, setRepeatPasswordErr] = useState<string | undefined>(undefined);
+  const [repeatPasswordErr, setRepeatPasswordErr] = useState<
+    string | undefined
+  >(undefined);
 
   const termsRef = useRef<HTMLInputElement | null>(null);
   const [termsErr, setTermsErr] = useState<string | undefined>(undefined);
@@ -58,7 +60,7 @@ function StandartForm() {
       setGenderErr(result.find((err) => err.includes('gender')));
       setTermsErr(result.find((err) => err.includes('T&C')));
       setPasswordErr(result.find((err) => err.includes('password')));
-      setRepeatPasswordErr(result.find((err) => err.includes('password')));
+      setRepeatPasswordErr(result.find((err) => err.includes('match')));
     }
   };
 
@@ -72,7 +74,7 @@ function StandartForm() {
         to MainPage
       </Link>
       <form
-        className="mx-auto flex max-w-fit flex-col  gap-4 px-10 mt-4"
+        className="mx-auto mt-4 flex max-w-fit  flex-col gap-4 px-10"
         onSubmit={handleSubmit}
       >
         <BasicInput type="text" ref={nameRef} title="Name :">
@@ -90,8 +92,14 @@ function StandartForm() {
         <BasicInput type="text" ref={passwordRef} title="Password :">
           {passwordErr && <ErrorMessage>{passwordErr}</ErrorMessage>}
         </BasicInput>
-        <BasicInput type="password" ref={repeatPasswordRef} title="Repeat password :">
-          {repeatPasswordErr && <ErrorMessage>{repeatPasswordErr}</ErrorMessage>}
+        <BasicInput
+          type="password"
+          ref={repeatPasswordRef}
+          title="Repeat password :"
+        >
+          {repeatPasswordErr && (
+            <ErrorMessage>{repeatPasswordErr}</ErrorMessage>
+          )}
         </BasicInput>
         <BasicInput
           type="checkbox"

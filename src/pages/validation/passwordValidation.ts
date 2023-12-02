@@ -15,11 +15,6 @@ export const hasUppercased = (value: string) => {
 };
 
 export const hasLowercased = (value: string) => {
-    console.log(value
-        .split('')
-        .filter(
-          (item) => isNaN(+item / 1) === true && item === item.toLowerCase()
-        ).length !== 0)
   return (
     value
       .split('')

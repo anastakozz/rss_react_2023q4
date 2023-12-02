@@ -57,6 +57,13 @@ const personSchema = yup.object({
       'password should contain at least 1 special character',
       (value) => hasSpecialChar(value) === true
     ),
+  repeatedPassword: yup.string().when('password', ([password], schema) => {
+    return schema.test(
+      'isMatching',
+      'passwords should match',
+      (schema) => schema === password
+    );
+  }),
   terms: yup
     .boolean()
     .test('terms-isOk', 'you need to accept T&C', (value) => value === true),
