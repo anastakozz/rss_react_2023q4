@@ -7,6 +7,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import BasicInput from '../components/inputComponents/BasicInput';
 import SubmitButton from '../components/SubmitButton';
 import GenderSelect from '../components/inputComponents/GenderSelect';
+import { toBase64 } from '../utils/utils';
 
 function StandartForm() {
   const dispatch = useAppDispatch();
@@ -47,19 +48,14 @@ function StandartForm() {
       terms: termsRef.current?.checked,
       password: passwordRef.current?.value,
       repeatedPassword: repeatRef.current?.value,
-      picture: fileRef.current?.files ? fileRef.current.files[0] : undefined
-      // pictureSize: fileRef.current?.files
-      //   ? fileRef.current?.files[0]?.size
-      //   : fileRef.current?.value,
-      // picture: fileRef.current?.files
-      //   ? fileRef.current?.files[0]?.name
-      //   : fileRef.current?.value,
+      picture: fileRef.current?.files ? fileRef.current.files[0] : undefined,
     };
 
     const { isOk, result } = await validateForm(formData);
 
     if (isOk && !Array.isArray(result)) {
-      dispatch(updateCards(result));
+      const picture = await toBase64(result.picture);
+      dispatch(updateCards({ ...result, picture }));
       navigate('/');
     } else if (!isOk && Array.isArray(result)) {
       setNameErr(result.find((err) => err.includes('name')));

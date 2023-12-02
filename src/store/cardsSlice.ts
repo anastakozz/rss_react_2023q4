@@ -7,7 +7,7 @@ export type CardData = {
   password: string;
   gender: string;
   terms?: boolean;
-  picture?: string;
+  picture: string | ArrayBuffer | null;
   country?: string;
 };
 

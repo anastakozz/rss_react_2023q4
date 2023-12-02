@@ -20,13 +20,14 @@ export async function validateForm(formData: rawData) {
     });
     console.log(validatedData);
 
-    const { name, age, gender, email, password } = validatedData;
+    const { name, age, gender, email, password, picture } = validatedData;
     const result = {
       name,
       age,
       gender,
       email,
       password,
+      picture
     };
 
     return { result, isOk: true };
