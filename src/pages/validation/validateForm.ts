@@ -27,7 +27,7 @@ export async function validateForm(formData: rawData) {
       gender,
       email,
       password,
-      picture
+      picture,
     };
 
     return { result, isOk: true };

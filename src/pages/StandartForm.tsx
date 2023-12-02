@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, ReactNode, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks';
 import { updateCards } from '../store/cardsSlice';
@@ -8,6 +8,7 @@ import BasicInput from '../components/inputComponents/BasicInput';
 import SubmitButton from '../components/SubmitButton';
 import GenderSelect from '../components/inputComponents/GenderSelect';
 import { toBase64 } from '../utils/utils';
+import { getStrength } from './validation/passwordValidation';
 
 function StandartForm() {
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ function StandartForm() {
 
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [passwordErr, setPasswordErr] = useState<string | undefined>(undefined);
+  const [strength, setStrength] = useState<ReactNode>();
 
   const repeatRef = useRef<HTMLInputElement | null>(null);
   const [repeatErr, setRepeatErr] = useState<string | undefined>(undefined);
@@ -36,6 +38,13 @@ function StandartForm() {
 
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [fileErr, setFileErr] = useState<string | undefined>(undefined);
+
+  const updateStrength = () => {
+    if (passwordRef.current) {
+      const strength = getStrength(passwordRef.current.value);
+      setStrength(strength);
+    }
+  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -70,7 +79,7 @@ function StandartForm() {
   };
 
   return (
-    <main className="bg-gradient-to-r from-green-200 to-blue-400">
+    <main className="bg-gradient-to-r from-green-200 to-blue-400 pb-8">
       <h1>Uncontrolled Form</h1>
       <Link
         to={'/'}
@@ -94,8 +103,14 @@ function StandartForm() {
         <GenderSelect ref={genderRef} title="Gender :">
           {genderErr && <ErrorMessage>{genderErr}</ErrorMessage>}
         </GenderSelect>
-        <BasicInput type="password" ref={passwordRef} title="Password :">
+        <BasicInput
+          type="password"
+          ref={passwordRef}
+          title="Password :"
+          callback={updateStrength}
+        >
           {passwordErr && <ErrorMessage>{passwordErr}</ErrorMessage>}
+          {<div className="absolute right-0 top-0">{strength}</div>}
         </BasicInput>
         <BasicInput type="password" ref={repeatRef} title="Repeat password :">
           {repeatErr && <ErrorMessage>{repeatErr}</ErrorMessage>}

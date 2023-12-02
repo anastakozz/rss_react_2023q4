@@ -7,7 +7,12 @@ type CardProps = {
 
 export default function Card({ item, isLast }: CardProps) {
   return (
-    <div className={(isLast ? ' border-orange-400' : ' border-white/50') + ' w-1/3 border border-4'}>
+    <div
+      className={
+        (isLast ? ' border-orange-400' : ' border-white/50') +
+        ' w-1/3 border border-4'
+      }
+    >
       <div className="p-4">
         <ul className="mb-4">
           <li>Name : {item.name}</li>
@@ -18,9 +23,7 @@ export default function Card({ item, isLast }: CardProps) {
           <li>Password: {item.password}</li>
         </ul>
 
-        <img
-          src={typeof item.picture === 'string' ? item.picture : ''}
-        ></img>
+        <img src={typeof item.picture === 'string' ? item.picture : ''}></img>
       </div>
     </div>
   );

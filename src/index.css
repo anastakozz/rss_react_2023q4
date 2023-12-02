@@ -4,11 +4,11 @@
 
 @layer base {
   main {
-    @apply min-h-screen text-white font-bold;
+    @apply min-h-screen font-bold text-white;
   }
 
   h1 {
-    @apply py-4 text-center text-4xl ;
+    @apply py-4 text-center text-4xl;
   }
 }
 

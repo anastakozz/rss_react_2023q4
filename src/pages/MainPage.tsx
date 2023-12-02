@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import CardsList from '../components/CardsList';
 function MainPage() {
   return (
-    <main className='bg-gradient-to-r from-slate-200 to-blue-400'>
+    <main className="bg-gradient-to-r from-slate-200 to-blue-400">
       <h1>Main page</h1>
       <section className="mb-8 flex justify-center gap-8">
         <Link
