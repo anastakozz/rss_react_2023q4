@@ -27,10 +27,8 @@ function StandartForm() {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [passwordErr, setPasswordErr] = useState<string | undefined>(undefined);
 
-  const repeatPasswordRef = useRef<HTMLInputElement | null>(null);
-  const [repeatPasswordErr, setRepeatPasswordErr] = useState<
-    string | undefined
-  >(undefined);
+  const repeatRef = useRef<HTMLInputElement | null>(null);
+  const [repeatErr, setRepeatErr] = useState<string | undefined>(undefined);
 
   const termsRef = useRef<HTMLInputElement | null>(null);
   const [termsErr, setTermsErr] = useState<string | undefined>(undefined);
@@ -45,7 +43,7 @@ function StandartForm() {
       gender: genderRef.current?.value,
       terms: termsRef.current?.checked,
       password: passwordRef.current?.value,
-      repeatedPassword: repeatPasswordRef.current?.value,
+      repeatedPassword: repeatRef.current?.value,
     };
 
     const { isOk, result } = await validateForm(formData);
@@ -60,7 +58,7 @@ function StandartForm() {
       setGenderErr(result.find((err) => err.includes('gender')));
       setTermsErr(result.find((err) => err.includes('T&C')));
       setPasswordErr(result.find((err) => err.includes('password')));
-      setRepeatPasswordErr(result.find((err) => err.includes('match')));
+      setRepeatErr(result.find((err) => err.includes('match')));
     }
   };
 
@@ -89,17 +87,11 @@ function StandartForm() {
         <GenderSelect ref={genderRef} title="Gender :">
           {genderErr && <ErrorMessage>{genderErr}</ErrorMessage>}
         </GenderSelect>
-        <BasicInput type="text" ref={passwordRef} title="Password :">
+        <BasicInput type="password" ref={passwordRef} title="Password :">
           {passwordErr && <ErrorMessage>{passwordErr}</ErrorMessage>}
         </BasicInput>
-        <BasicInput
-          type="password"
-          ref={repeatPasswordRef}
-          title="Repeat password :"
-        >
-          {repeatPasswordErr && (
-            <ErrorMessage>{repeatPasswordErr}</ErrorMessage>
-          )}
+        <BasicInput type="password" ref={repeatRef} title="Repeat password :">
+          {repeatErr && <ErrorMessage>{repeatErr}</ErrorMessage>}
         </BasicInput>
         <BasicInput
           type="checkbox"
