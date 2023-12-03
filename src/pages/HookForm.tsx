@@ -10,14 +10,19 @@ import { useAppDispatch } from '../hooks';
 import { toBase64 } from '../models/utils';
 import { updateCards } from '../store/cardsSlice';
 import { IFormInput } from '../models/interface';
+import { useState, ReactNode, useEffect } from 'react';
+import { getStrength } from './validation/passwordValidation';
 
 function HookForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [strength, setStrength] = useState<ReactNode>();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<IFormInput>({
     mode: 'onChange',
     resolver: yupResolver(personSchema),
@@ -27,6 +32,14 @@ function HookForm() {
     dispatch(updateCards({ ...data, picture }));
     navigate('/');
   };
+  const watchPassword = watch('password');
+
+  useEffect(() => {
+    if (watchPassword) {
+      const strength = getStrength(watchPassword);
+      setStrength(strength);
+    }
+  }, [watchPassword]);
 
   return (
     <main className="bg-gradient-to-r from-blue-200 to-pink-200 pb-8">
@@ -59,6 +72,7 @@ function HookForm() {
 
         <HookInput type="password" title="Password :" {...register('password')}>
           <ErrorMessage> {errors.password?.message} </ErrorMessage>
+          {<div className="absolute right-0 top-0">{strength}</div>}
         </HookInput>
 
         <HookInput
