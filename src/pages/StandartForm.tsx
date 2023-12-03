@@ -89,7 +89,7 @@ function StandartForm() {
       setGenderErr(result.find((err) => err.includes('gender')));
       setTermsErr(result.find((err) => err.includes('T&C')));
       setPasswordErr(result.find((err) => err.includes('password')));
-      setRepeatErr(result.find((err) => err.includes('match')));
+      setRepeatErr(result.find((err) => err.includes('repeat' || 'match')));
       setFileErr(result.find((err) => err.includes('picture')));
       setCountryErr(result.find((err) => err.includes('country')));
     }
