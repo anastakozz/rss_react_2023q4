@@ -9,6 +9,7 @@ import SubmitButton from '../components/SubmitButton';
 import GenderSelect from '../components/inputComponents/GenderSelect';
 import { toBase64 } from '../models/utils';
 import { getStrength } from './validation/passwordValidation';
+import Autocomplete from '../components/inputComponents/Autocomplete/Autocomplete';
 
 function StandartForm() {
   const dispatch = useAppDispatch();
@@ -39,6 +40,20 @@ function StandartForm() {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [fileErr, setFileErr] = useState<string | undefined>(undefined);
 
+  const countryRef = useRef<HTMLInputElement | null>(null);
+  const [countryErr, setCountryErr] = useState<string | undefined>(undefined);
+
+  const updateCountry = (newValue: string) => {
+    if (countryRef.current) {
+      countryRef.current.value = newValue;
+      countryRef.current.blur();
+    }
+  };
+
+  const getCountryValue = () => {
+    return countryRef?.current?.value;
+  };
+
   const updateStrength = () => {
     if (passwordRef.current) {
       const strength = getStrength(passwordRef.current.value);
@@ -58,12 +73,12 @@ function StandartForm() {
       password: passwordRef.current?.value,
       repeatedPassword: repeatRef.current?.value,
       picture: fileRef.current?.files,
+      country: countryRef.current?.value,
     };
 
     const { isOk, result } = await validateForm(formData);
 
     if (isOk && !Array.isArray(result)) {
-      
       const picture = await toBase64(result.picture[0]);
       dispatch(updateCards({ ...result, picture }));
       navigate('/');
@@ -76,6 +91,7 @@ function StandartForm() {
       setPasswordErr(result.find((err) => err.includes('password')));
       setRepeatErr(result.find((err) => err.includes('match')));
       setFileErr(result.find((err) => err.includes('picture')));
+      setCountryErr(result.find((err) => err.includes('country')));
     }
   };
 
@@ -89,6 +105,7 @@ function StandartForm() {
         to MainPage
       </Link>
       <form
+        autoComplete="off"
         className="mx-auto mt-4 flex max-w-fit  flex-col gap-4 px-10"
         onSubmit={handleSubmit}
       >
@@ -104,6 +121,16 @@ function StandartForm() {
         <GenderSelect ref={genderRef} title="Gender :">
           {genderErr && <ErrorMessage>{genderErr}</ErrorMessage>}
         </GenderSelect>
+
+        <Autocomplete
+          title="Country :"
+          ref={countryRef}
+          callback={updateCountry}
+          getValue={getCountryValue}
+        >
+          {countryErr && <ErrorMessage>{countryErr}</ErrorMessage>}
+        </Autocomplete>
+
         <BasicInput
           type="password"
           ref={passwordRef}
@@ -133,6 +160,7 @@ function StandartForm() {
         >
           {termsErr && <ErrorMessage>{termsErr}</ErrorMessage>}
         </BasicInput>
+
         <SubmitButton />
       </form>
     </main>

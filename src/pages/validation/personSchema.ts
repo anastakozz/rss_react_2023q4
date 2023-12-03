@@ -5,6 +5,7 @@ import {
   hasLowercased,
   hasSpecialChar,
 } from './passwordValidation';
+import { countries } from '../../models/countries';
 
 const personSchema = yup.object().shape({
   name: yup
@@ -93,6 +94,12 @@ const personSchema = yup.object().shape({
         }
       }
     ),
+  country: yup
+    .string()
+    .required()
+    .test('isCorrect', 'choose existing country', (value) => {
+      return countries.includes(value);
+    }),
 
   terms: yup
     .boolean()
