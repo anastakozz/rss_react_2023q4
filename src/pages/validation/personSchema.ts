@@ -23,6 +23,8 @@ const personSchema = yup.object().shape({
     ),
   age: yup
     .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .nullable()
     .required()
     .test('isNonNegative', 'age should be non-negative', (value) => value >= 0),
   email: yup.string().required().email(),
