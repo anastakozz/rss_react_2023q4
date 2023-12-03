@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface IFormInput {
   name: string;
   age: number;
@@ -35,4 +37,13 @@ export type CardData = {
 
 export interface CardsState {
   cards: CardData[];
+}
+
+export interface InputProps {
+  children: ReactNode;
+  title: string;
+  type: string;
+  accept?: string;
+  isInline?: boolean;
+  callback?: () => void;
 }

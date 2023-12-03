@@ -5,7 +5,7 @@ interface ButtonProps {
 }
 
 export default function SubmitButton({ isDisabled = false }: ButtonProps) {
-  console.log(isDisabled)
+  console.log(isDisabled);
   return (
     <button
       className={classNames(
