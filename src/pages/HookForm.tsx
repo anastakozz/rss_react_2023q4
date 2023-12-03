@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import SubmitButton from '../components/SubmitButton';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -6,19 +6,14 @@ import personSchema from './validation/personSchema';
 import ErrorMessage from '../components/ErrorMessage';
 import { HookGenderSelect } from '../components/inputComponents/GenderSelect';
 import { HookInput } from '../components/inputComponents/BasicInput';
-
-interface IFormInput {
-  name: string;
-  age: number;
-  email: string;
-  gender: string;
-  password: string;
-  repeatedPassword?: string | undefined;
-  picture: File;
-  terms?: boolean | undefined;
-}
+import { useAppDispatch } from '../hooks';
+import { toBase64 } from '../models/utils';
+import { updateCards } from '../store/cardsSlice';
+import { IFormInput } from '../models/interface';
 
 function HookForm() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,7 +22,11 @@ function HookForm() {
     mode: 'onChange',
     resolver: yupResolver(personSchema),
   });
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const picture = await toBase64(data.picture[0]);
+    dispatch(updateCards({ ...data, picture }));
+    navigate('/');
+  };
 
   return (
     <main className="bg-gradient-to-r from-blue-200 to-pink-200 pb-8">
@@ -57,6 +56,37 @@ function HookForm() {
         <HookGenderSelect title="Gender :" {...register('gender')}>
           <ErrorMessage> {errors.gender?.message} </ErrorMessage>
         </HookGenderSelect>
+
+        <HookInput type="password" title="Password :" {...register('password')}>
+          <ErrorMessage> {errors.password?.message} </ErrorMessage>
+        </HookInput>
+
+        <HookInput
+          type="password"
+          title="Repeat password :"
+          {...register('repeatedPassword')}
+        >
+          <ErrorMessage> {errors.repeatedPassword?.message} </ErrorMessage>
+        </HookInput>
+
+        <HookInput
+          type="file"
+          title="Image :"
+          {...register('picture')}
+          accept=".png, .jpeg"
+          isInline={true}
+        >
+          <ErrorMessage> {errors.picture?.message} </ErrorMessage>
+        </HookInput>
+
+        <HookInput
+          type="checkbox"
+          title="T&C :"
+          {...register('terms')}
+          isInline={true}
+        >
+          <ErrorMessage> {errors.terms?.message} </ErrorMessage>
+        </HookInput>
 
         <SubmitButton />
       </form>

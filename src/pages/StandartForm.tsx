@@ -57,13 +57,14 @@ function StandartForm() {
       terms: termsRef.current?.checked,
       password: passwordRef.current?.value,
       repeatedPassword: repeatRef.current?.value,
-      picture: fileRef.current?.files ? fileRef.current.files[0] : undefined,
+      picture: fileRef.current?.files,
     };
 
     const { isOk, result } = await validateForm(formData);
 
     if (isOk && !Array.isArray(result)) {
-      const picture = await toBase64(result.picture);
+      
+      const picture = await toBase64(result.picture[0]);
       dispatch(updateCards({ ...result, picture }));
       navigate('/');
     } else if (!isOk && Array.isArray(result)) {

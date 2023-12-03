@@ -1,16 +1,6 @@
 import personSchema from './personSchema';
 import * as yup from 'yup';
-
-interface rawData {
-  name: string | undefined;
-  age: number | undefined;
-  email: string | undefined;
-  gender: string | undefined;
-  terms: boolean | undefined;
-  password: string | undefined;
-  repeatedPassword: string | undefined;
-  picture: File | undefined;
-}
+import { rawData } from '../../models/interface';
 
 export async function validateForm(formData: rawData) {
   console.log(formData);

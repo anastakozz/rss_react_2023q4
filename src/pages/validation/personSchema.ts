@@ -57,32 +57,41 @@ const personSchema = yup.object().shape({
       'password should contain at least 1 special character',
       (value) => hasSpecialChar(value) === true
     ),
-  repeatedPassword: yup.string().when('password', ([password], schema) => {
-    return schema.test(
-      'isMatching',
-      'passwords should match',
-      (schema) => schema === password
-    );
-  }),
+  repeatedPassword: yup
+    .string()
+    .required('please repeat the password')
+    .when('password', ([password], schema) => {
+      return schema.test(
+        'isMatching',
+        'passwords should match',
+        (schema) => schema === password
+      );
+    }),
   picture: yup
-    .mixed<File>()
+    .mixed<FileList>()
     .required('please upload a picture')
+    .test('isLoaded', 'please upload a picture', (value) => !!value[0])
     .test(
       'isSizeCorrect',
       'picture size must be equal or less than 1 MB',
       (value) => {
-        const size: number = value.size;
-        return size <= 1000000;
+        if (value[0]) {
+          const size: number = value[0].size;
+          return size <= 1000000;
+        }
       }
     )
     .test(
       'extensionIsOK',
       'picture should have an extension jpg or png',
       (value) => {
-        const type: string = value.type;
-        return type === 'image/jpg' || type === 'image/png';
+        if (value[0]) {
+          const type: string = value[0].type;
+          return type === 'image/jpg' || type === 'image/png';
+        }
       }
     ),
+
   terms: yup
     .boolean()
     .test('terms-isOk', 'you need to accept T&C', (value) => value === true),
