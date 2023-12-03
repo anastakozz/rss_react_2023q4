@@ -7,6 +7,7 @@ export interface IFormInput {
   repeatedPassword: string;
   picture: FileList;
   terms?: boolean;
+  country: string;
 }
 
 export interface rawData {
@@ -18,6 +19,7 @@ export interface rawData {
   password: string | undefined;
   repeatedPassword: string | undefined;
   picture: FileList | undefined | null;
+  country: string | undefined;
 }
 
 export type CardData = {

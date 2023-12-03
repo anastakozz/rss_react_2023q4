@@ -12,6 +12,7 @@ import { updateCards } from '../store/cardsSlice';
 import { IFormInput } from '../models/interface';
 import { useState, ReactNode, useEffect } from 'react';
 import { getStrength } from './validation/passwordValidation';
+import { HookAutocomplete } from '../components/inputComponents/Autocomplete/Autocomplete';
 
 function HookForm() {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ function HookForm() {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<IFormInput>({
     mode: 'onChange',
     resolver: yupResolver(personSchema),
@@ -33,6 +35,7 @@ function HookForm() {
     navigate('/');
   };
   const watchPassword = watch('password');
+  const watchCountry = watch('country');
 
   useEffect(() => {
     if (watchPassword) {
@@ -40,6 +43,10 @@ function HookForm() {
       setStrength(strength);
     }
   }, [watchPassword]);
+
+  const updateCoutry = (value: string) => {
+    setValue('country', value, { shouldValidate: true });
+  };
 
   return (
     <main className="bg-gradient-to-r from-blue-200 to-pink-200 pb-8">
@@ -69,6 +76,15 @@ function HookForm() {
         <HookGenderSelect title="Gender :" {...register('gender')}>
           <ErrorMessage> {errors.gender?.message} </ErrorMessage>
         </HookGenderSelect>
+
+        <HookAutocomplete
+          callback={updateCoutry}
+          value={watchCountry}
+          title="Country :"
+          {...register('country')}
+        >
+          <ErrorMessage> {errors.country?.message} </ErrorMessage>
+        </HookAutocomplete>
 
         <HookInput type="password" title="Password :" {...register('password')}>
           <ErrorMessage> {errors.password?.message} </ErrorMessage>
