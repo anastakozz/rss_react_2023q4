@@ -7,7 +7,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import BasicInput from '../components/inputComponents/BasicInput';
 import SubmitButton from '../components/SubmitButton';
 import GenderSelect from '../components/inputComponents/GenderSelect';
-import { toBase64 } from '../utils/utils';
+import { toBase64 } from '../models/utils';
 import { getStrength } from './validation/passwordValidation';
 
 function StandartForm() {
