@@ -6,6 +6,7 @@ import {
   hasSpecialChar,
 } from './passwordValidation';
 import { countries } from '../../models/countries';
+const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 const personSchema = yup.object().shape({
   name: yup
@@ -28,7 +29,12 @@ const personSchema = yup.object().shape({
     .nullable()
     .required()
     .test('isNonNegative', 'age should be non-negative', (value) => value >= 0),
-  email: yup.string().required().email(),
+  email: yup
+    .string()
+    .required()
+    .test('isEmail', 'enter valid email', (value) => {
+      return emailRegex.test(value);
+    }),
   gender: yup
     .string()
     .required()
