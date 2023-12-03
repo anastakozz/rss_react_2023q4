@@ -4,9 +4,9 @@ export interface IFormInput {
   email: string;
   gender: string;
   password: string;
-  repeatedPassword?: string | undefined;
+  repeatedPassword: string;
   picture: FileList;
-  terms?: boolean | undefined;
+  terms?: boolean;
 }
 
 export interface rawData {
