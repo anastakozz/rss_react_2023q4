@@ -12,7 +12,7 @@ import { updateCards } from '../store/cardsSlice';
 import { IFormInput } from '../models/interface';
 import { useState, ReactNode, useEffect } from 'react';
 import { getStrength } from './validation/passwordValidation';
-import { HookAutocomplete } from '../components/inputComponents/Autocomplete/Autocomplete';
+import HookAutocomplete from '../components/inputComponents/Autocomplete/HookAutocomplete';
 
 function HookForm() {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ function HookForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     watch,
     setValue,
   } = useForm<IFormInput>({
@@ -118,7 +118,7 @@ function HookForm() {
           <ErrorMessage> {errors.terms?.message} </ErrorMessage>
         </HookInput>
 
-        <SubmitButton />
+        <SubmitButton isDisabled={!isValid} />
       </form>
     </main>
   );
