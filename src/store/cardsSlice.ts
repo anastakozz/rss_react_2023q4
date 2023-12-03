@@ -1,19 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type CardData = {
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  gender: string;
-  terms?: boolean;
-  picture: string | ArrayBuffer | null;
-  country?: string;
-};
-
-interface CardsState {
-  cards: CardData[];
-}
+import { CardsState, CardData } from '../models/interface';
 
 const initialState: CardsState = {
   cards: [],
