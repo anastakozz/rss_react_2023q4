@@ -1,4 +1,4 @@
-import { CardData } from '../store/cardsSlice';
+import { CardData } from '../models/interface';
 
 type CardProps = {
   item: CardData;
