@@ -8,7 +8,8 @@ export async function validateForm(formData: rawData) {
       abortEarly: false,
     });
 
-    const { name, age, gender, email, password, picture } = validatedData;
+    const { name, age, gender, email, password, picture, country } =
+      validatedData;
     const result = {
       name,
       age,
@@ -16,6 +17,7 @@ export async function validateForm(formData: rawData) {
       email,
       password,
       picture,
+      country,
     };
 
     return { result, isOk: true };

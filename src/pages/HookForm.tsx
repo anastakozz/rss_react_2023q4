@@ -4,7 +4,7 @@ import SubmitButton from '../components/SubmitButton';
 import { yupResolver } from '@hookform/resolvers/yup';
 import personSchema from './validation/personSchema';
 import ErrorMessage from '../components/ErrorMessage';
-import HookGenderSelect from '../components/inputComponents/Select/GenderSelect';
+import HookGenderSelect from '../components/inputComponents/Select/HookGenderSelect';
 import HookInput from '../components/inputComponents/Input/HookInput';
 import { useAppDispatch } from '../hooks';
 import { toBase64 } from '../models/utils';
@@ -22,7 +22,7 @@ function HookForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     watch,
     setValue,
   } = useForm<IFormInput>({
@@ -118,7 +118,7 @@ function HookForm() {
           <ErrorMessage> {errors.terms?.message} </ErrorMessage>
         </HookInput>
 
-        <SubmitButton />
+        <SubmitButton isDisabled={!isValid} />
       </form>
     </main>
   );
